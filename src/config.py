@@ -1,6 +1,6 @@
 import os
 
-ROOT_DIR = os.path.join(os.path.dirname(__file__), '..')
+ROOT_DIR = os.path.dirname(__file__).replace('\\src', '')
 
 LISTEN_ADDR = '127.0.0.1'
 LISTEN_PORT = 8000
@@ -9,4 +9,4 @@ REDIRECT_URI = f'{BASE_URL}/s/auth-callback'
 DASHBOARD_URI = f'{BASE_URL}/s/dashboard'
 TWITCH_AUTH_BASE_URL = 'https://id.twitch.tv/oauth2/authorize'
 CLIENT_ID = 'jzaeeic6j23u0l2onzm2orovs0uakl'
-SCOPES = ['channel:manage:redemptions']
+SCOPES = ['channel:read:redemptions', 'channel:manage:redemptions']

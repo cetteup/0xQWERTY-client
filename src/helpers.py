@@ -1,18 +1,19 @@
-import uuid
-import urllib.parse
+import logging
 
-from typing import Tuple
-
-from src import config
+from requests_oauthlib import OAuth2Session
 
 
-def get_auth_url() -> Tuple[str, str]:
-    state = str(uuid.uuid4())
-    params = {
-        'client_id': config.CLIENT_ID,
-        'redirect_uri': config.REDIRECT_URI,
-        'response_type': 'token',
-        'scope': " ".join(config.SCOPES),
-        'state': state
-    }
-    return f'{config.TWITCH_AUTH_BASE_URL}?{urllib.parse.urlencode(params)}', state
+async def update_redemption_status(twitch: OAuth2Session, redemption_id: str,
+                                   broadcaster_id: str, reward_id: str, fulfilled: bool = True):
+    try:
+        twitch.patch('https://api.twitch.tv/helix/channel_points/custom_rewards/redemptions',
+                     params={
+                         'id': redemption_id,
+                         'broadcaster_id': broadcaster_id,
+                         'reward_id': reward_id
+                     },
+                     data={
+                         'status': 'FULFILLED' if fulfilled else 'CANCELED'
+                     })
+    except Exception:
+        logging.error('Failed to update redemption status')
