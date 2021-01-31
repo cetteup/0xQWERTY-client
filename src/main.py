@@ -45,7 +45,7 @@ async def prompt_auth():
         rewards = yaml.safe_load(f)
     configuredGames = list(set([key for r in rewards for key in r['actions'].keys()]))
 
-    await sio.connect('https://qwerty-server.herokuapp.com')
+    await sio.connect(config.QWERTY_API_BASE_URL)
     authorization_url, state = twitch.authorization_url(config.TWITCH_AUTH_BASE_URL)
     webbrowser.open(authorization_url)
 
