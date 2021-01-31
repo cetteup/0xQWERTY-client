@@ -1,0 +1,10 @@
+- id: {reward id}
+  title: { reward title }
+  cost: { reward cost }
+  actions:
+    game_1:
+      action_type: keypress
+      action_value: { hex keyboard scan code for key to press }
+    game_2:
+      action_type: keypress
+      action_value: { hex keyboard scan code for key to press }

@@ -1,6 +1,7 @@
 import os
 
 ROOT_DIR = os.path.dirname(__file__).replace('\\src', '')
+PWD = os.getcwd()
 
 LISTEN_ADDR = '127.0.0.1'
 LISTEN_PORT = 8000

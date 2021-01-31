@@ -1,26 +1,30 @@
 import logging
 import os
+import re
 import webbrowser
 
 import pyautogui
 import socketio
 import uvicorn
+import yaml
 from fastapi import FastAPI, Response, status
 from fastapi.requests import Request
 from fastapi.responses import PlainTextResponse, HTMLResponse
-from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from oauthlib.oauth2 import MobileApplicationClient
 from requests_oauthlib import OAuth2Session
 
 import config
-from keyboard import auto_press_key
 from helpers import update_redemption_status
+from keyboard import auto_press_key
 
 app = FastAPI(title='twitch-channel-point-commander')
 templates = Jinja2Templates(directory=os.path.join(config.ROOT_DIR, 'templates'))
 sio = socketio.AsyncClient(reconnection_attempts=16, logger=True, engineio_logger=True)
 
+games = {}
+rewards = []
+configuredGames = []
 currentUser = {}
 twitch = OAuth2Session(client=MobileApplicationClient(client_id=config.CLIENT_ID),
                        redirect_uri=config.REDIRECT_URI, scope=config.SCOPES)
@@ -30,6 +34,17 @@ twitch.headers['Client-Id'] = config.CLIENT_ID
 
 @app.on_event('startup')
 async def prompt_auth():
+    global games, rewards, configuredGames
+
+    with open(os.path.join(config.ROOT_DIR, 'games.yaml')) as f:
+        games = yaml.safe_load(f)
+    for key, game in games.items():
+        games[key] = re.compile(game)
+
+    with open(os.path.join(config.PWD, 'rewards.yaml')) as f:
+        rewards = yaml.safe_load(f)
+    configuredGames = list(set([key for r in rewards for key in r['actions'].keys()]))
+
     await sio.connect('https://qwerty-server.herokuapp.com')
     authorization_url, state = twitch.authorization_url(config.TWITCH_AUTH_BASE_URL)
     webbrowser.open(authorization_url)
@@ -70,6 +85,7 @@ async def auth(url: str, response: Response):
         if resp.status_code == 200:
             parsed = resp.json()
             currentUser = parsed['data'][0]
+            await sio.emit('join', f'streamer:{currentUser.get("login")}')
         elif resp.status_code == 401:
             token_valid = False
     except Exception as e:
@@ -86,7 +102,6 @@ async def auth(url: str, response: Response):
 @sio.event
 async def connect():
     print('connection established')
-    await sio.emit('join', 'streamer:lifebd')
 
 
 @sio.on('redemption')
@@ -95,15 +110,19 @@ async def on_message(data):
     fulfilled = False
     redemption_id = data.get('id')
     reward_id = data.get('reward_id')
-    if str(pyautogui.getActiveWindowTitle()).startswith('BF2 (v1.5.3153-802.0'):
-        if reward_id == 'd63eef98-207f-4f48-8e60-ab6230c270af':
-            print('pressing 1')
-            auto_press_key(0x2)
-        elif reward_id == 'b15e264d-e34f-4177-9abe-54191653fd5e':
-            print('pressing space')
-            auto_press_key(0x39)
+    reward = next((r for r in rewards if r['id'] == reward_id), None)
+    active_window_title = str(pyautogui.getActiveWindowTitle())
+    active_game = next(
+        (key for key in games.keys() if key in configuredGames and games[key].match(active_window_title)),
+        None
+    )
+    if reward is not None and active_game is not None:
+        action = reward['actions'].get(active_game)
+        if action.get('action_type') == 'keypress':
+            print(f'Pressing {hex(action["action_value"])}')
+            auto_press_key(action['action_value'])
         fulfilled = True
-    else:
+    elif reward is not None and active_game is None:
         print('Game window not active, skipping')
 
     await update_redemption_status(twitch, redemption_id, currentUser.get('id'), reward_id, fulfilled)
