@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['src\\main.py'],
-             pathex=['C:\\Users\\mister249\\Documents\\Repos\\twitch-channel-point-commander'],
+             pathex=['C:\\Users\\mister249\\Documents\\Repos\\0xQWERTY-client'],
              binaries=[],
              datas=[
                 ('templates/*.html', 'templates'),
@@ -20,7 +20,7 @@ a = Analysis(['src\\main.py'],
                 'uvicorn.protocols.websockets',
                 'uvicorn.protocols.websockets.auto',
                 'uvicorn.lifespan',
-                'uvicorn.lifespan.on',
+                'uvicorn.lifespan.on'
             ],
              hookspath=[],
              runtime_hooks=[],
