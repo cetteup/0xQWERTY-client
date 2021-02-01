@@ -101,7 +101,7 @@ async def auth(url: str, response: Response):
 
 @sio.event
 async def connect():
-    print('connection established')
+    print('Connection to 0xqwerty server established')
 
 
 @sio.on('redemption')
@@ -129,8 +129,13 @@ async def on_message(data):
 
 
 @sio.event
+def connect_error():
+    print('Connection to 0xqwerty server failed!')
+
+
+@sio.event
 async def disconnect():
-    print('disconnected from server')
+    print('Disconnected from 0xqwerty server')
 
 
 if __name__ == '__main__':
