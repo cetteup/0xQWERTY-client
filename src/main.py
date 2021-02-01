@@ -18,7 +18,7 @@ import config
 from helpers import update_redemption_status
 from keyboard import auto_press_key
 
-app = FastAPI(title='0xQWERTY - a keyboward for your viewers')
+app = FastAPI(title='0xQWERTY - an in-game keyboard for your viewers')
 templates = Jinja2Templates(directory=os.path.join(config.ROOT_DIR, 'templates'))
 sio = socketio.AsyncClient(reconnection_attempts=16, logger=True, engineio_logger=True)
 
