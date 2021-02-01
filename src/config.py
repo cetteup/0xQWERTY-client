@@ -12,4 +12,4 @@ TWITCH_AUTH_BASE_URL = 'https://id.twitch.tv/oauth2/authorize'
 CLIENT_ID = 'jzaeeic6j23u0l2onzm2orovs0uakl'
 SCOPES = ['channel:read:redemptions', 'channel:manage:redemptions']
 
-QWERTY_API_BASE_URL = 'https://qwerty-server.herokuapp.com'
+QWERTY_API_BASE_URL = 'https://api.0xqwerty.com'
