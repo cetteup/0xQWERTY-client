@@ -1,3 +1,4 @@
+import argparse
 import logging
 import os
 import re
@@ -17,6 +18,12 @@ from requests_oauthlib import OAuth2Session
 
 import config
 from helpers import update_redemption_status
+
+parser = argparse.ArgumentParser(description='0xQWERTY - an in-game keyboard for your viewers (Windows client)')
+parser.add_argument('--refund', help='Cancel and refund all redemptions regardless of whether action was taken',
+                    dest='refund', action='store_true')
+parser.set_defaults(refund=False)
+args = parser.parse_args()
 
 app = FastAPI(title='0xQWERTY - an in-game keyboard for your viewers')
 templates = Jinja2Templates(directory=os.path.join(config.ROOT_DIR, 'templates'))
@@ -129,7 +136,13 @@ async def on_message(data):
     elif reward is not None and active_game is None:
         print('Game window not active, skipping')
 
-    await update_redemption_status(twitch, redemption_id, currentUser.get('id'), reward_id, fulfilled)
+    """
+    Update redemption status via Twitch API to
+    a) fulfilled, if action was triggered and refunding is not forced
+    b) canceled, if no action was taken or refunding is forced (will refund points to user)
+    """
+    await update_redemption_status(twitch, redemption_id, currentUser.get('id'), reward_id,
+                                   fulfilled and not args.refund)
 
 
 @sio.event
