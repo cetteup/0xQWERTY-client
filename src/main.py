@@ -4,6 +4,7 @@ import re
 import webbrowser
 
 import pyautogui
+import pydirectinput
 import socketio
 import uvicorn
 import yaml
@@ -16,11 +17,13 @@ from requests_oauthlib import OAuth2Session
 
 import config
 from helpers import update_redemption_status
-from keyboard import auto_press_key
 
 app = FastAPI(title='0xQWERTY - an in-game keyboard for your viewers')
 templates = Jinja2Templates(directory=os.path.join(config.ROOT_DIR, 'templates'))
 sio = socketio.AsyncClient(reconnection_attempts=16, logger=True, engineio_logger=True)
+
+# Disable pydirectinput failsafe points
+pydirectinput.FAILSAFE = False
 
 games = {}
 rewards = []
@@ -34,7 +37,7 @@ twitch.headers['Client-Id'] = config.CLIENT_ID
 
 @app.on_event('startup')
 async def prompt_auth():
-    global games, rewards, configuredGames
+    global sio, games, rewards, configuredGames
 
     with open(os.path.join(config.ROOT_DIR, 'games.yaml')) as f:
         games = yaml.safe_load(f)
@@ -119,9 +122,10 @@ async def on_message(data):
     if reward is not None and active_game is not None:
         action = reward['actions'].get(active_game)
         if action.get('action_type') == 'keypress':
-            print(f'Pressing {hex(action["action_value"])}')
-            auto_press_key(action['action_value'])
-        fulfilled = True
+            print(f'Pressing {action["action_value"]}')
+            fulfilled = pydirectinput.press([str(action['action_value'])])
+            if not fulfilled:
+                print('Keypress failed')
     elif reward is not None and active_game is None:
         print('Game window not active, skipping')
 
