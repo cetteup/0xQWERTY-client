@@ -121,7 +121,11 @@ async def on_message(data):
     redemption_id = data.get('id')
     reward_id = data.get('reward_id')
     reward = next((r for r in rewards if r['id'] == reward_id), None)
-    active_window_title = str(pyautogui.getActiveWindowTitle()).strip()
+    """
+    Some games' window titles contain leading/trailing spaces or u200b/non-printing spaces (Call of Duty).
+    So, strip spaces and replace u200b-s with nothing
+    """
+    active_window_title = str(pyautogui.getActiveWindowTitle()).strip().replace('\u200b', '')
     active_game = next(
         (key for key in games.keys() if key in configuredGames and games[key].match(active_window_title)),
         None
