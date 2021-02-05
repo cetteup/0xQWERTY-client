@@ -49,7 +49,7 @@ async def prompt_auth():
     with open(os.path.join(config.ROOT_DIR, 'games.yaml')) as f:
         games = yaml.safe_load(f)
     for key, game in games.items():
-        games[key] = re.compile(game)
+        games[key] = re.compile(game, flags=re.IGNORECASE)
 
     with open(os.path.join(config.PWD, 'rewards.yaml')) as f:
         rewards = yaml.safe_load(f)
@@ -121,7 +121,7 @@ async def on_message(data):
     redemption_id = data.get('id')
     reward_id = data.get('reward_id')
     reward = next((r for r in rewards if r['id'] == reward_id), None)
-    active_window_title = str(pyautogui.getActiveWindowTitle())
+    active_window_title = str(pyautogui.getActiveWindowTitle()).strip()
     active_game = next(
         (key for key in games.keys() if key in configuredGames and games[key].match(active_window_title)),
         None
