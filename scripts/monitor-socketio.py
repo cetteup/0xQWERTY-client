@@ -1,9 +1,14 @@
+import argparse
 import asyncio
 
 import socketio
 
+parser = argparse.ArgumentParser(description='Monitor rooms on a socket.io server')
+parser.add_argument('--rooms', help='Names of rooms to monitor', nargs='+', type=str, required=True)
+parser.add_argument('--server', help='Server to connect to', type=str, default='https://api.0xqwerty.com')
+args = parser.parse_args()
+
 sio = socketio.AsyncClient()
-streamers = ['lifebd', 'ghostgaminggg']
 
 
 @sio.event
@@ -19,7 +24,7 @@ async def on_message(data):
 @sio.event
 async def connect():
     print('Connected!')
-    for streamer in streamers:
+    for streamer in args.rooms:
         await sio.emit('join', f'streamer:{streamer}')
 
 
@@ -34,7 +39,7 @@ async def disconnect():
 
 
 async def main():
-    await sio.connect('https://api.0xqwerty.com')
+    await sio.connect(args.server)
     await sio.wait()
 
 
