@@ -20,9 +20,11 @@ import config
 from helpers import update_redemption_status
 
 parser = argparse.ArgumentParser(description='0xQWERTY - an in-game keyboard for your viewers (Windows client)')
+parser.add_argument('--auto-fulfill', help='Automatically mark redemptions as fulfilled if game window is active',
+                    dest='auto_fulfill', action='store_true')
 parser.add_argument('--refund', help='Cancel and refund all redemptions regardless of whether action was taken',
                     dest='refund', action='store_true')
-parser.set_defaults(refund=False)
+parser.set_defaults(auto_fulfill=False, refund=False)
 args = parser.parse_args()
 
 app = FastAPI(title='0xQWERTY - an in-game keyboard for your viewers')
@@ -141,12 +143,13 @@ async def on_message(data):
         print('Game window not active, skipping')
 
     """
-    Update redemption status via Twitch API to
+    If auto fulfilling is enabled or no action was taken, update redemption status via Twitch API to
     a) fulfilled, if action was triggered and refunding is not forced
     b) canceled, if no action was taken or refunding is forced (will refund points to user)
     """
-    await update_redemption_status(twitch, redemption_id, currentUser.get('id'), reward_id,
-                                   fulfilled and not args.refund)
+    if args.auto_fulfill or not fulfilled:
+        await update_redemption_status(twitch, redemption_id, currentUser.get('id'), reward_id,
+                                       fulfilled and not args.refund)
 
 
 @sio.event
