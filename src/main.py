@@ -1,10 +1,8 @@
 import argparse
 import logging
 import os
-import re
 import webbrowser
 
-import pyautogui
 import pydirectinput
 import socketio
 import uvicorn
@@ -17,6 +15,7 @@ from oauthlib.oauth2 import MobileApplicationClient
 from requests_oauthlib import OAuth2Session
 
 import config
+from gamedetector import GameDetector
 from helpers import update_redemption_status
 
 parser = argparse.ArgumentParser(description='0xQWERTY - an in-game keyboard for your viewers (Windows client)')
@@ -34,10 +33,9 @@ sio = socketio.AsyncClient(reconnection_attempts=16, logger=True, engineio_logge
 # Disable pydirectinput failsafe points
 pydirectinput.FAILSAFE = False
 
-games = {}
 rewards = []
-configuredGames = []
 currentUser = {}
+gameDetector = GameDetector()
 twitch = OAuth2Session(client=MobileApplicationClient(client_id=config.CLIENT_ID),
                        redirect_uri=config.REDIRECT_URI, scope=config.SCOPES)
 # Client ID header is not sent by default, so just manually add it to the headers
@@ -46,16 +44,13 @@ twitch.headers['Client-Id'] = config.CLIENT_ID
 
 @app.on_event('startup')
 async def prompt_auth():
-    global sio, games, rewards, configuredGames
-
-    with open(os.path.join(config.ROOT_DIR, 'games.yaml')) as f:
-        games = yaml.safe_load(f)
-    for key, game in games.items():
-        games[key] = re.compile(game, flags=re.IGNORECASE)
+    global sio, rewards, gameDetector
 
     with open(os.path.join(config.PWD, 'rewards.yaml')) as f:
         rewards = yaml.safe_load(f)
     configuredGames = list(set([key for r in rewards for key in r['actions'].keys()]))
+
+    gameDetector.set_configured_games(configuredGames)
 
     await sio.connect(config.QWERTY_API_BASE_URL)
     authorization_url, state = twitch.authorization_url(config.TWITCH_AUTH_BASE_URL)
@@ -118,20 +113,14 @@ async def connect():
 
 @sio.on('redemption')
 async def on_message(data):
+    global gameDetector
+
     print('Channel points redeemed!', data)
     fulfilled = False
     redemption_id = data.get('id')
     reward_id = data.get('reward_id')
     reward = next((r for r in rewards if r['id'] == reward_id), None)
-    """
-    Some games' window titles contain leading/trailing spaces or u200b/non-printing spaces (Call of Duty).
-    So, strip spaces and replace u200b-s with nothing
-    """
-    active_window_title = str(pyautogui.getActiveWindowTitle()).strip().replace('\u200b', '')
-    active_game = next(
-        (key for key in games.keys() if key in configuredGames and games[key].match(active_window_title)),
-        None
-    )
+    active_game = gameDetector.get_active_game()
     if reward is not None and active_game is not None:
         action = reward['actions'].get(active_game)
         if action.get('action_type') == 'keypress':
