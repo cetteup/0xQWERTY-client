@@ -22,12 +22,14 @@ class GameDetector:
         'Counter-Strike Global Offensive': '^counter-strike: global offensive$',
         'Fortnite': '^fortnite$',
         'Hyperscape': '^hyperscape$',
+        'Metro Redux': '^metro redux$',
         'ParaWorld': r'^paraworld   .*pwclient wip \(base [0-9]+\)$',
         'Portal': '^portal$', 'Portal 2': '^portal 2$',
         'Rocket League': r'^Rocket League \(\d\d-.*\)$',
         'Star Wars Battlefront 2': '^star wars battlefront ii$',
         'Stronghold Crusader': '^crusader$',
         'Team Fortress 2': '^team fortress 2$',
+        'Trackmania': '^trackmania$',
         'Valorant': '^valorant$'
     }
 
