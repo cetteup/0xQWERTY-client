@@ -7,8 +7,7 @@ a = Analysis(['src\\main.py'],
              pathex=['C:\\Users\\mister249\\Documents\\Repos\\0xQWERTY-client'],
              binaries=[],
              datas=[
-                ('templates/*.html', 'templates'),
-                ('games.yaml', '.')
+                ('templates/*.html', 'templates')
              ],
              hiddenimports=[
                 'uvicorn.logging',
