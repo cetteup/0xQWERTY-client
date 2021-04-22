@@ -16,7 +16,7 @@ from requests_oauthlib import OAuth2Session
 
 import config
 from gamedetector import GameDetector
-from helpers import update_redemption_status
+from helpers import update_redemption_status, setup_eventsub_subscriptions
 
 parser = argparse.ArgumentParser(description='0xQWERTY - an in-game keyboard for your viewers (Windows client)')
 parser.add_argument('--version', action='version', version='0xQWERTY-client 0.1.0')
@@ -93,7 +93,8 @@ async def auth(url: str, response: Response):
         if resp.status_code == 200:
             parsed = resp.json()
             currentUser = parsed['data'][0]
-            await sio.emit('join', f'streamer:{currentUser.get("login")}')
+            await sio.emit('join', f'streamer:{currentUser["login"]}')
+            await setup_eventsub_subscriptions(twitch, currentUser["id"])
         elif resp.status_code == 401:
             token_valid = False
     except Exception as e:
