@@ -19,7 +19,7 @@ from gamedetector import GameDetector
 from helpers import update_redemption_status, setup_eventsub_subscriptions
 
 parser = argparse.ArgumentParser(description='0xQWERTY - an in-game keyboard for your viewers (Windows client)')
-parser.add_argument('--version', action='version', version='0xQWERTY-client 0.1.0')
+parser.add_argument('--version', action='version', version='0xQWERTY-client 0.1.1')
 parser.add_argument('--auto-fulfill', help='Automatically mark redemptions as fulfilled if game window is active',
                     dest='auto_fulfill', action='store_true')
 parser.add_argument('--refund', help='Cancel and refund all redemptions regardless of whether action was taken',
