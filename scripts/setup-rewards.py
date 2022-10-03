@@ -39,7 +39,7 @@ twitchUser = OAuth2Session(config.CLIENT_ID, token={'access_token': args.user_ac
 twitchUser.headers['Client-Id'] = config.CLIENT_ID
 
 # Set up oauth2 session for app
-twitchApp = OAuth2Session(config.CLIENT_ID, token={'access_token': '7osacjvbrem39qut3l04oyudphak8u'})
+twitchApp = OAuth2Session(config.CLIENT_ID, token={'access_token': args.app_access_token})
 twitchApp.headers['Client-Id'] = config.CLIENT_ID
 
 logging.debug('Fetching current user details')
