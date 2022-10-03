@@ -1,0 +1,30 @@
+version: 1
+disable_existing_loggers: false
+
+formatters:
+  standard:
+    format: "%(asctime)s %(name)-16s %(levelname)-8s %(message)s"
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    formatter: standard
+    stream: ext://sys.stdout
+
+loggers:
+  uvicorn:
+    error:
+      propagate: true
+  engineio:
+    client:
+      propagate: true
+  socketio:
+    client:
+      propagate: true
+  0xQWERTY:
+    level: INFO
+
+root:
+  level: WARNING
+  handlers: [console]
+  propagate: no

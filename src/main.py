@@ -1,5 +1,4 @@
 import argparse
-import logging
 import os
 import webbrowser
 
@@ -16,7 +15,8 @@ from requests_oauthlib import OAuth2Session
 
 import config
 from gamedetector import GameDetector
-from helpers import update_redemption_status, setup_eventsub_subscriptions
+from helpers import setup_eventsub_subscriptions, update_redemption_status
+from logger import logger
 
 parser = argparse.ArgumentParser(description='0xQWERTY - an in-game keyboard for your viewers (Windows client)')
 parser.add_argument('--version', action='version', version='0xQWERTY-client 0.1.1')
@@ -55,6 +55,7 @@ async def prompt_auth():
 
     await sio.connect(config.QWERTY_API_BASE_URL)
     authorization_url, state = twitch.authorization_url(config.TWITCH_AUTH_BASE_URL)
+    logger.info(f'Opening browser for Twitch authentication ({authorization_url})')
     webbrowser.open(authorization_url)
 
 
@@ -95,11 +96,12 @@ async def auth(url: str, response: Response):
             currentUser = parsed['data'][0]
             await sio.emit('join', f'streamer:{currentUser["login"]}')
             await setup_eventsub_subscriptions(twitch, currentUser["id"])
+            logger.info('Authentication complete, listening for redemptions')
         elif resp.status_code == 401:
             token_valid = False
     except Exception as e:
-        logging.error('Failed to get current user from Twitch API')
-        logging.error(e)
+        logger.error('Failed to get current user from Twitch API')
+        logger.error(e)
         token_valid = False
 
     if not token_valid:
@@ -110,14 +112,14 @@ async def auth(url: str, response: Response):
 
 @sio.event
 async def connect():
-    print('Connection to 0xqwerty server established')
+    logger.info('Connection to socket.io server established')
 
 
 @sio.on('redemption')
 async def on_message(data):
     global gameDetector
 
-    print('Channel points redeemed!', data)
+    logger.debug('Channel points redeemed!', data)
     fulfilled = False
     redemption_id = data.get('id')
     reward_id = data.get('reward_id')
@@ -126,12 +128,12 @@ async def on_message(data):
     if reward is not None and active_game is not None:
         action = reward['actions'].get(active_game)
         if action.get('action_type') == 'keypress':
-            print(f'Pressing {action["action_value"]}')
+            logger.info(f'Pressing key for reward redemption ({action["action_value"]})')
             fulfilled = pydirectinput.press([str(action['action_value'])])
             if not fulfilled:
-                print('Keypress failed')
+                logger.error('Keypress failed')
     elif reward is not None and active_game is None:
-        print('Game window not active, skipping')
+        logger.info('Received redemption while game window was not active, skipping')
 
     """
     If auto fulfilling is enabled or no action was taken, update redemption status via Twitch API to
@@ -139,19 +141,29 @@ async def on_message(data):
     b) canceled, if no action was taken or refunding is forced (will refund points to user)
     """
     if args.auto_fulfill or not fulfilled:
-        await update_redemption_status(twitch, redemption_id, currentUser.get('id'), reward_id,
-                                       fulfilled and not args.refund)
+        await update_redemption_status(
+            twitch,
+            redemption_id,
+            currentUser.get('id'),
+            reward_id,
+            fulfilled and not args.refund
+        )
 
 
 @sio.event
 def connect_error(data):
-    print('Connection to 0xqwerty server failed!')
+    logger.error('Connection to 0xqwerty server failed!')
 
 
 @sio.event
 async def disconnect():
-    print('Disconnected from 0xqwerty server')
+    logger.warning('Disconnected from 0xqwerty server')
 
 
 if __name__ == '__main__':
-    uvicorn.run(app, host=config.LISTEN_ADDR, port=config.LISTEN_PORT)
+    uvicorn.run(
+        app,
+        host=config.LISTEN_ADDR,
+        port=config.LISTEN_PORT,
+        log_config=os.path.join(config.ROOT_DIR, 'logging.yaml')
+    )

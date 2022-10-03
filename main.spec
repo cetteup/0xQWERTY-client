@@ -3,11 +3,12 @@
 block_cipher = None
 
 
-a = Analysis(['src\\main.py'],
-             pathex=['C:\\Users\\mister249\\Documents\\Repos\\0xQWERTY-client'],
+a = Analysis(['src/main.py'],
+             pathex=['.'],
              binaries=[],
              datas=[
-                ('templates/*.html', 'templates')
+                ('templates/*.html', 'templates'),
+                ('logging.yaml', '.')
              ],
              hiddenimports=[
                 'uvicorn.logging',
