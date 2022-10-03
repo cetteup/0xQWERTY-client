@@ -17,7 +17,7 @@ group.add_argument('--reward-count', help='Number of rewards to set up', type=in
 parser.add_argument('--eventsub-secret', help='Secret used for verifying a EventSub challenge request signature',
                     type=str)
 parser.add_argument('--eventsub-callback', help='Callback endpoint to supply for EventSub subscriptions', type=str,
-                    default='https://api.0xqwerty.com/webhooks/eventsub-callback')
+                    default='https://0xqwerty-api.cetteup.com/webhooks/eventsub-callback')
 parser.add_argument('--add', help='Whether to add given list/number of rewards regardless of existing ones',
                     dest='add', action='store_true')
 parser.add_argument('--debug-log', help='Output tons of debugging information', dest='debug_log', action='store_true')

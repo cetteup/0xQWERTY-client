@@ -5,7 +5,7 @@ import socketio
 
 parser = argparse.ArgumentParser(description='Monitor rooms on a socket.io server')
 parser.add_argument('--rooms', help='Names of rooms to monitor', nargs='+', type=str, required=True)
-parser.add_argument('--server', help='Server to connect to', type=str, default='https://api.0xqwerty.com')
+parser.add_argument('--server', help='Server to connect to', type=str, default='https://0xqwerty-api.cetteup.com')
 args = parser.parse_args()
 
 sio = socketio.AsyncClient()
