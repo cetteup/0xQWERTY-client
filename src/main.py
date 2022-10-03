@@ -144,7 +144,7 @@ async def on_message(data):
 
 
 @sio.event
-def connect_error():
+def connect_error(data):
     print('Connection to 0xqwerty server failed!')
 
 

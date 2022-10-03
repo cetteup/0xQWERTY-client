@@ -29,8 +29,8 @@ async def connect():
 
 
 @sio.event
-async def connect_error():
-    print('Connection failed!')
+async def connect_error(data):
+    print('Connection failed!', data)
 
 
 @sio.event
