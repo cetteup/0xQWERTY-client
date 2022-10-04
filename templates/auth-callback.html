@@ -27,8 +27,16 @@
 
     function submitAuthTokenURL() {
         const url = new URL(`${baseUrl}/a/token-from-url`);
-        url.searchParams.set('url', document.location.href.replace('http:', 'https:'));
-        fetch(url)
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                url: document.location.href.replace('http:', 'https:')
+            }),
+        })
             .then((resp) => {
                 if (resp.ok) {
                     heading.textContent = 'Authentication complete, you can close this page';

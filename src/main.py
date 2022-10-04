@@ -11,6 +11,7 @@ from fastapi.requests import Request
 from fastapi.responses import PlainTextResponse, HTMLResponse
 from fastapi.templating import Jinja2Templates
 from oauthlib.oauth2 import MobileApplicationClient
+from pydantic import BaseModel
 from requests_oauthlib import OAuth2Session
 
 import config
@@ -82,16 +83,20 @@ async def auth_url():
     return authorization_url
 
 
-@app.get('/a/token-from-url', status_code=status.HTTP_200_OK)
-async def auth(url: str, response: Response):
+class TokenFromUrlDTO(BaseModel):
+    url: str
+
+
+@app.post('/a/token-from-url', status_code=status.HTTP_204_NO_CONTENT)
+async def auth(dto: TokenFromUrlDTO, response: Response):
     global currentUser, twitch
 
     # Try to store and use token
     token_valid = True
     try:
-        twitch.token_from_fragment(url)
+        twitch.token_from_fragment(dto.url)
         resp = twitch.get('https://api.twitch.tv/helix/users')
-        if resp.status_code == 200:
+        if resp.ok:
             parsed = resp.json()
             currentUser = parsed['data'][0]
             await sio.emit('join', f'streamer:{currentUser["login"]}')
@@ -106,8 +111,6 @@ async def auth(url: str, response: Response):
 
     if not token_valid:
         response.status_code = status.HTTP_401_UNAUTHORIZED
-
-    return token_valid
 
 
 @sio.event
