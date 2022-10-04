@@ -14,34 +14,50 @@
     <div class="position-absolute top-50 start-50 translate-middle">
         <h4 id="status" class="text-center text-light">Waiting for authentication to complete...</h4>
         <p class="text-center mt-3">
-            <a id="take-me-there" class="btn btn-outline-secondary" href="/s/dashboard" role="button" style="display: none">Go to dashboard</a>
+            <a id="auth" class="btn btn-outline-secondary" href="/s/auth-callback" role="button" style="display: none">Go to dashboard</a>
         </p>
 
     </div>
 </div>
 <script type="text/javascript">
     const baseUrl = '{{ base_url }}';
-    const heading = $('#status');
-    const link = $('#take-me-there');
-    const url = document.location.href.replace('http:', 'https:')
-    $.get(`${baseUrl}/a/token-from-url`, {url: url})
-        .then(() => {
-            heading.text('Authentication complete, lock and load')
-            link.show();
-        })
-        .catch(() => {
-            heading.text('Sorry, authentication failed');
-            link.text('Try again');
-            linkAuthUrl();
-            link.show()
-        })
+    const heading = document.getElementById('status');
+    const link = document.getElementById('auth');
+    submitAuthTokenURL();
 
-    function linkAuthUrl() {
-        $.get(`${baseUrl}/a/auth-url`)
-            .then((url) => link.prop('href', url))
+    function submitAuthTokenURL() {
+        const url = new URL(`${baseUrl}/a/token-from-url`);
+        url.searchParams.set('url', document.location.href.replace('http:', 'https:'));
+        fetch(url)
+            .then((resp) => {
+                if (resp.ok) {
+                    heading.textContent = 'Authentication complete, you can close this page';
+                    link.style.display = 'none';
+                } else {
+                    showAuthFailed();
+                }
+            })
             .catch(() => {
-                heading.text('Something went wrong, please make sure the client is still running');
-                link.hide();
+                showAuthFailed();
+            })
+    }
+
+    function showAuthFailed() {
+        heading.textContent = 'Twitch authentication failed, please try again';
+        link.textContent = 'Authenticate';
+        updateAuthURLLink();
+        link.style.display = 'initial';
+    }
+
+    function updateAuthURLLink() {
+        fetch(`${baseUrl}/a/auth-url`)
+            .then((resp) => {
+                resp.text()
+                    .then((url) => link.setAttribute('href', url))
+            })
+            .catch(() => {
+                heading.textContent = 'Something went wrong, please make sure the client is still running';
+                link.style.display = 'none';
             })
     }
 </script>
