@@ -71,12 +71,6 @@ async def render_page(request: Request):
                                       {'request': request, 'app_name': app.title, 'base_url': config.BASE_URL})
 
 
-@app.get('/s/dashboard', response_class=HTMLResponse)
-async def render_page(request: Request):
-    return templates.TemplateResponse('dashboard.html',
-                                      {'request': request, 'app_name': app.title, 'base_url': config.BASE_URL})
-
-
 @app.get('/a/auth-url', response_class=PlainTextResponse)
 async def auth_url():
     authorization_url, state = twitch.authorization_url(config.TWITCH_AUTH_BASE_URL)
