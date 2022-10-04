@@ -41,7 +41,7 @@
         $.get(`${baseUrl}/a/auth-url`)
             .then((url) => link.prop('href', url))
             .catch(() => {
-                heading.text('Something went wrong, please make sure the commander is still running');
+                heading.text('Something went wrong, please make sure the client is still running');
                 link.hide();
             })
     }
