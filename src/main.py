@@ -18,7 +18,7 @@ from classes import RewardActionType, TokenFromUrlDTO
 from gamedetector import GameDetector
 from logger import logger
 from rewardmanager import RewardManager, RewardManagerError
-from utility import load_client_config, load_logging_config, sleep_sigterm
+from utility import load_client_config, load_logging_config, sleep_sigterm, dump_client_config
 
 parser = argparse.ArgumentParser(
     description='0xQWERTY - Automatically press keys when Twitch viewers redeem channel point rewards'
@@ -102,12 +102,16 @@ async def auth(dto: TokenFromUrlDTO, response: Response):
     rm.set_broadcaster_id(broadcaster["id"])
     rm.set_session(twitch)
 
+    modified = False
     try:
-        rm.setup_rewards(cc.rewards)
+        modified = rm.setup_rewards(cc.rewards)
         rm.subscribe_to_redemptions()
     except RewardManagerError as e:
         logger.critical(str(e))
         sleep_sigterm()
+
+    if modified:
+        dump_client_config(cc)
 
     logger.info('Setup complete, listening for redemptions')
 

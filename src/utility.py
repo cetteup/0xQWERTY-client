@@ -8,7 +8,7 @@ import yaml
 from jsonschema import validate, ValidationError
 
 import config
-from classes import ClientConfig
+from classes import ClientConfig, YamlDumper
 from logger import logger
 
 
@@ -63,3 +63,14 @@ def load_client_config() -> ClientConfig:
         sleep_exit(1)
 
     return ClientConfig.from_dict(client_config)
+
+
+def dump_client_config(client_config: ClientConfig) -> None:
+    client_config_path = os.path.join(config.PWD, 'config.yaml')
+    try:
+        with open(client_config_path, 'w') as c:
+            yaml.dump(client_config.to_dict(), c, sort_keys=False, Dumper=YamlDumper, default_flow_style=False)
+    except (OSError, yaml.YAMLError):
+        logger.error('Failed to write client config')
+
+

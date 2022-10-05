@@ -47,7 +47,8 @@ class RewardManager:
             logger.debug(e)
             raise RewardManagerError('Failed to fetch existing rewards from Twitch')
 
-    def setup_rewards(self, configured_rewards: List[RewardConfig]) -> None:
+    def setup_rewards(self, configured_rewards: List[RewardConfig]) -> bool:
+        modified = False
         existing_rewards = self.get_rewards()
         for reward_config in configured_rewards:
             # Don't default to None here when getting from dict, since None == None would treat the reward as found
@@ -55,12 +56,21 @@ class RewardManager:
             if existing_reward is None:
                 # Any rewards without an id or with a non-existing id need to be created
                 reward_config.id = self.create_reward(reward_config)
+                modified = True
             else:
                 # Use data from Twitch to update any existing rewards (using current data as fallback)
-                reward_config.title = existing_reward.get('title', reward_config.title)
-                reward_config.cost = existing_reward.get('cost', reward_config.cost)
+                title = existing_reward.get('title', reward_config.title)
+                if title != reward_config.title:
+                    reward_config.title = title
+                    modified = True
+
+                cost = existing_reward.get('cost', reward_config.cost)
+                if cost != reward_config.cost:
+                    reward_config.cost = cost
+                    modified = True
 
         logger.info(f'All {len(configured_rewards)} configured rewards are (now) setup on Twitch')
+        return modified
 
     def create_reward(self, reward_config: RewardConfig) -> Optional[str]:
         self.ensure_is_ready()

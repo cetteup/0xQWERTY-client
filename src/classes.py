@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Optional, Dict, List
 
+import yaml
 from pydantic import BaseModel
 
 
@@ -21,6 +22,15 @@ class RewardAction:
             value=as_dict.get('value')
         )
 
+    # Should be called "__dict__" but that confused the PyCharm debugger and
+    # makes it impossible to inspect any instance variables
+    # https://youtrack.jetbrains.com/issue/PY-43955
+    def to_dict(self) -> dict:
+        return {
+            'type': self.type.value,
+            'value': self.value
+        }
+
 
 @dataclass
 class RewardConfig:
@@ -36,9 +46,20 @@ class RewardConfig:
             title=as_dict.get('title'),
             cost=as_dict.get('cost'),
             actions={
-                key: RewardAction.from_dict(value) for (key, value) in as_dict.get('actions', dict()).items()
+                key: RewardAction.from_dict(action_dict)
+                for (key, action_dict) in as_dict.get('actions', dict()).items()
             }
         )
+
+    def to_dict(self) -> dict:
+        return {
+            'id': self.id,
+            'title': self.title,
+            'cost': self.cost,
+            'actions': {
+                key: action.to_dict() for (key, action) in self.actions.items()
+            }
+        }
 
 
 @dataclass
@@ -57,6 +78,23 @@ class ClientConfig:
             ]
         )
 
+    def to_dict(self) -> dict:
+        return {
+            'autoFulfill': self.auto_fulfill,
+            'refund': self.refund,
+            'rewards': [
+                reward.to_dict() for reward in self.rewards
+            ]
+        }
+
 
 class TokenFromUrlDTO(BaseModel):
     url: str
+
+
+class YamlDumper(yaml.Dumper):
+    """
+    From: https://stackoverflow.com/a/39681672
+    """
+    def increase_indent(self, flow=False, indentless=False):
+        return super(YamlDumper, self).increase_indent(flow, False)
