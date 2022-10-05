@@ -25,7 +25,7 @@ parser = argparse.ArgumentParser(description='0xQWERTY - an in-game keyboard for
 parser.add_argument('--version', action='version', version='0xQWERTY-client 0.1.1')
 args = parser.parse_args()
 
-app = FastAPI(title='0xQWERTY - an in-game keyboard for your viewers')
+app = FastAPI(title='0xQWERTY-client')
 templates = Jinja2Templates(directory=os.path.join(config.ROOT_DIR, 'templates'))
 sio = socketio.AsyncClient(reconnection_attempts=16, logger=True, engineio_logger=True)
 
