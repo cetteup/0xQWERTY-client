@@ -16,7 +16,7 @@ from requests_oauthlib import OAuth2Session
 
 import config
 from gamedetector import GameDetector
-from helpers import setup_eventsub_subscriptions, update_redemption_status, load_client_config, load_logging_config
+from utility import setup_eventsub_subscriptions, update_redemption_status, load_client_config, load_logging_config
 from logger import logger
 from classes import RewardActionType
 
