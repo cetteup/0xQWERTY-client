@@ -15,10 +15,11 @@ from pydantic import BaseModel
 from requests_oauthlib import OAuth2Session
 
 import config
-from gamedetector import GameDetector
-from utility import setup_eventsub_subscriptions, update_redemption_status, load_client_config, load_logging_config
-from logger import logger
 from classes import RewardActionType
+from gamedetector import GameDetector
+from logger import logger
+from src.rewardmanager import RewardManager, RewardManagerError
+from utility import load_client_config, load_logging_config, sleep_sigterm
 
 parser = argparse.ArgumentParser(description='0xQWERTY - an in-game keyboard for your viewers (Windows client)')
 parser.add_argument('--version', action='version', version='0xQWERTY-client 0.1.1')
@@ -31,8 +32,9 @@ sio = socketio.AsyncClient(reconnection_attempts=16, logger=True, engineio_logge
 # Disable pydirectinput failsafe points
 pydirectinput.FAILSAFE = False
 
-currentUser = {}
+broadcaster = {}
 gameDetector = GameDetector()
+rm = RewardManager()
 twitch = OAuth2Session(client=MobileApplicationClient(client_id=config.CLIENT_ID),
                        redirect_uri=config.REDIRECT_URI, scope=config.SCOPES)
 # Client ID header is not sent by default, so just manually add it to the headers
@@ -76,7 +78,7 @@ class TokenFromUrlDTO(BaseModel):
 
 @app.post('/a/token-from-url', status_code=status.HTTP_204_NO_CONTENT)
 async def auth(dto: TokenFromUrlDTO, response: Response):
-    global currentUser, twitch
+    global broadcaster
 
     # Try to store and use token
     token_valid = True
@@ -85,10 +87,7 @@ async def auth(dto: TokenFromUrlDTO, response: Response):
         resp = twitch.get('https://api.twitch.tv/helix/users')
         if resp.ok:
             parsed = resp.json()
-            currentUser = parsed['data'][0]
-            await sio.emit('join', f'streamer:{currentUser["login"]}')
-            await setup_eventsub_subscriptions(twitch, currentUser["id"])
-            logger.info('Authentication complete, listening for redemptions')
+            broadcaster = parsed['data'][0]
         elif resp.status_code == 401:
             token_valid = False
     except Exception as e:
@@ -98,6 +97,22 @@ async def auth(dto: TokenFromUrlDTO, response: Response):
 
     if not token_valid:
         response.status_code = status.HTTP_401_UNAUTHORIZED
+        return
+
+    await sio.emit('join', f'streamer:{broadcaster["login"]}')
+
+    # Complete reward manager configuration
+    rm.set_broadcaster_id(broadcaster["id"])
+    rm.set_session(twitch)
+
+    try:
+        rm.setup_rewards(cc.rewards)
+        rm.subscribe_to_redemptions()
+    except RewardManagerError as e:
+        logger.critical(str(e))
+        sleep_sigterm()
+
+    logger.info('Setup complete, listening for redemptions')
 
 
 @sio.event
@@ -107,9 +122,7 @@ async def connect():
 
 @sio.on('redemption')
 async def on_message(data):
-    global gameDetector
-
-    logger.debug('Channel points redeemed!', data)
+    logger.debug('Received channel point redemption', data)
     fulfilled = False
     redemption_id = data.get('id')
     reward_id = data.get('reward_id')
@@ -131,13 +144,14 @@ async def on_message(data):
     b) canceled, if no action was taken or refunding is forced (will refund points to user)
     """
     if cc.auto_fulfill or cc.refund or not fulfilled:
-        await update_redemption_status(
-            twitch,
-            redemption_id,
-            currentUser.get('id'),
-            reward_id,
-            fulfilled and not cc.refund
-        )
+        try:
+            rm.update_redemption_status(
+                redemption_id,
+                reward_id,
+                fulfilled and not cc.refund
+            )
+        except RewardManagerError as e:
+            logger.error(str(e))
 
 
 @sio.event
