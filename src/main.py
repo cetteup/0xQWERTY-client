@@ -11,14 +11,13 @@ from fastapi.requests import Request
 from fastapi.responses import PlainTextResponse, HTMLResponse
 from fastapi.templating import Jinja2Templates
 from oauthlib.oauth2 import MobileApplicationClient
-from pydantic import BaseModel
 from requests_oauthlib import OAuth2Session
 
 import config
-from classes import RewardActionType
+from classes import RewardActionType, TokenFromUrlDTO
 from gamedetector import GameDetector
 from logger import logger
-from src.rewardmanager import RewardManager, RewardManagerError
+from rewardmanager import RewardManager, RewardManagerError
 from utility import load_client_config, load_logging_config, sleep_sigterm
 
 parser = argparse.ArgumentParser(description='0xQWERTY - an in-game keyboard for your viewers (Windows client)')
@@ -70,10 +69,6 @@ async def render_page(request: Request):
 async def auth_url():
     authorization_url, state = twitch.authorization_url(config.TWITCH_AUTH_BASE_URL)
     return authorization_url
-
-
-class TokenFromUrlDTO(BaseModel):
-    url: str
 
 
 @app.post('/a/token-from-url', status_code=status.HTTP_204_NO_CONTENT)

@@ -2,6 +2,8 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Optional, Dict, List
 
+from pydantic import BaseModel
+
 
 class RewardActionType(str, Enum):
     KEYPRESS = 'keypress'
@@ -54,3 +56,7 @@ class ClientConfig:
                 RewardConfig.from_dict(r) for r in as_dict.get('rewards', list())
             ]
         )
+
+
+class TokenFromUrlDTO(BaseModel):
+    url: str
