@@ -1,11 +1,11 @@
 import argparse
+import logging.config
 import os
 import webbrowser
 
 import pydirectinput
 import socketio
 import uvicorn
-import yaml
 from fastapi import FastAPI, Response, status
 from fastapi.requests import Request
 from fastapi.responses import PlainTextResponse, HTMLResponse
@@ -16,16 +16,12 @@ from requests_oauthlib import OAuth2Session
 
 import config
 from gamedetector import GameDetector
-from helpers import setup_eventsub_subscriptions, update_redemption_status
+from helpers import setup_eventsub_subscriptions, update_redemption_status, load_client_config, load_logging_config
 from logger import logger
+from classes import RewardActionType
 
 parser = argparse.ArgumentParser(description='0xQWERTY - an in-game keyboard for your viewers (Windows client)')
 parser.add_argument('--version', action='version', version='0xQWERTY-client 0.1.1')
-parser.add_argument('--auto-fulfill', help='Automatically mark redemptions as fulfilled if game window is active',
-                    dest='auto_fulfill', action='store_true')
-parser.add_argument('--refund', help='Cancel and refund all redemptions regardless of whether action was taken',
-                    dest='refund', action='store_true')
-parser.set_defaults(auto_fulfill=False, refund=False)
 args = parser.parse_args()
 
 app = FastAPI(title='0xQWERTY - an in-game keyboard for your viewers')
@@ -35,7 +31,6 @@ sio = socketio.AsyncClient(reconnection_attempts=16, logger=True, engineio_logge
 # Disable pydirectinput failsafe points
 pydirectinput.FAILSAFE = False
 
-rewards = []
 currentUser = {}
 gameDetector = GameDetector()
 twitch = OAuth2Session(client=MobileApplicationClient(client_id=config.CLIENT_ID),
@@ -46,11 +41,9 @@ twitch.headers['Client-Id'] = config.CLIENT_ID
 
 @app.on_event('startup')
 async def prompt_auth():
-    global sio, rewards, gameDetector
+    global sio, cc, gameDetector
 
-    with open(os.path.join(config.PWD, 'rewards.yaml')) as f:
-        rewards = yaml.safe_load(f)
-    configuredGames = list(set([key for r in rewards for key in r['actions'].keys()]))
+    configuredGames = list(set([key for r in cc.rewards for key in r.actions.keys()]))
 
     gameDetector.set_configured_games(configuredGames)
 
@@ -120,30 +113,30 @@ async def on_message(data):
     fulfilled = False
     redemption_id = data.get('id')
     reward_id = data.get('reward_id')
-    reward = next((r for r in rewards if r['id'] == reward_id), None)
+    reward = next((r for r in cc.rewards if r.id == reward_id), None)
     active_game = gameDetector.get_active_game()
     if reward is not None and active_game is not None:
-        action = reward['actions'].get(active_game)
-        if action.get('action_type') == 'keypress':
-            logger.info(f'Pressing key for reward redemption ({action["action_value"]})')
-            fulfilled = pydirectinput.press([str(action['action_value'])])
+        action = reward.actions.get(active_game)
+        if action.type is RewardActionType.KEYPRESS:
+            logger.info(f'Pressing key for reward redemption ({action.value})')
+            fulfilled = pydirectinput.press([str(action.value)])
             if not fulfilled:
                 logger.error('Keypress failed')
     elif reward is not None and active_game is None:
         logger.info('Received redemption while game window was not active, skipping')
 
     """
-    If auto fulfilling is enabled or no action was taken, update redemption status via Twitch API to
+    If auto fulfilling/refunding is enabled or no action was taken, update redemption status via Twitch API to
     a) fulfilled, if action was triggered and refunding is not forced
     b) canceled, if no action was taken or refunding is forced (will refund points to user)
     """
-    if args.auto_fulfill or not fulfilled:
+    if cc.auto_fulfill or cc.refund or not fulfilled:
         await update_redemption_status(
             twitch,
             redemption_id,
             currentUser.get('id'),
             reward_id,
-            fulfilled and not args.refund
+            fulfilled and not cc.refund
         )
 
 
@@ -158,9 +151,14 @@ async def disconnect():
 
 
 if __name__ == '__main__':
+    lc = load_logging_config()
+    logging.config.dictConfig(lc)
+
+    cc = load_client_config()
+
     uvicorn.run(
         app,
         host=config.LISTEN_ADDR,
         port=config.LISTEN_PORT,
-        log_config=os.path.join(config.ROOT_DIR, 'logging.yaml')
+        log_config=lc
     )

@@ -1,8 +1,59 @@
+import json
+import os
+import sys
+import time
+
 import aiohttp
+import yaml
+from jsonschema import validate, ValidationError
 from requests_oauthlib import OAuth2Session
 
 import config
 from logger import logger
+from classes import ClientConfig
+
+
+def sleep_exit(exit_code: int, seconds: float = 15.0):
+    logger.info(f'Window will close in {seconds} seconds...')
+    time.sleep(seconds)
+    sys.exit(exit_code)
+
+
+def load_logging_config() -> dict:
+    logging_config_path = os.path.join(config.ROOT_DIR, 'logging.yaml')
+    try:
+        with open(logging_config_path, 'r') as f:
+            return yaml.safe_load(f)
+    except (OSError, yaml.YAMLError):
+        logger.critical(f'Failed to load logging config from {logging_config_path}')
+        sleep_exit(1)
+
+
+def load_client_config() -> ClientConfig:
+    schema_path = os.path.join(config.ROOT_DIR, 'config.schema.json')
+    try:
+        with open(schema_path, 'r') as s:
+            schema = json.load(s)
+    except (OSError, json.JSONDecodeError):
+        logger.critical(f'Failed to load config JSON schema from {schema_path}')
+        sleep_exit(1)
+
+    client_config_path = os.path.join(config.PWD, 'config.yaml')
+    try:
+        with open(client_config_path, 'r') as c:
+            client_config = yaml.safe_load(c)
+    except (OSError, yaml.YAMLError):
+        logger.critical(f'Failed to load client config from {client_config_path}')
+        sleep_exit(1)
+
+    # Ensure actual client config matches schema
+    try:
+        validate(client_config, schema)
+    except ValidationError as e:
+        logger.critical(f'Client config does not match schema: {e.json_path}: {e.message}')
+        sleep_exit(1)
+
+    return ClientConfig.from_dict(client_config)
 
 
 async def update_redemption_status(twitch: OAuth2Session, redemption_id: str,

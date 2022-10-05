@@ -8,7 +8,8 @@ a = Analysis(['src/main.py'],
              binaries=[],
              datas=[
                 ('templates/*.html', 'templates'),
-                ('logging.yaml', '.')
+                ('logging.yaml', '.'),
+                ('config.schema.json', '.')
              ],
              hiddenimports=[
                 'uvicorn.logging',

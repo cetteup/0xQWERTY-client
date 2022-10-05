@@ -1,0 +1,28 @@
+autoFulfill: true
+refund: false
+rewards:
+  - id: '80d76c25-6dd4-412c-91f7-329121ae54d3' # An existing reward created by 0xQWERTY
+    title: Get out of the vehicle!
+    cost: 1000
+    actions:
+      Battlefield 2:
+        type: keypress
+        value: e
+      Call of Duty Modern Warfare:
+        type: keypress
+        value: f
+  - title: Reload my gun!   # Rewards without an id will be created
+    cost: 500
+    actions:
+      Counter-Strike Global Offensive:
+        type: keypress
+        value: r
+      Valorant:
+        type: keypress
+        value: r
+  - title: Jump!
+    cost: 200
+    actions:
+      Rocket League:
+        type: keypress
+        value: space
