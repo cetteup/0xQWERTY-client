@@ -21,7 +21,7 @@ from rewardmanager import RewardManager, RewardManagerError
 from utility import load_client_config, load_logging_config, sleep_sigterm, dump_client_config
 
 parser = argparse.ArgumentParser(
-    description='0xQWERTY - Automatically press keys when Twitch viewers redeem channel point rewards'
+    description='0xQWERTY - Automatically press keys in-game when Twitch viewers redeem channel point rewards'
 )
 parser.add_argument('--version', action='version', version='0xQWERTY-client 0.1.1')
 args = parser.parse_args()
