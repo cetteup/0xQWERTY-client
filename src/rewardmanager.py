@@ -79,7 +79,7 @@ class RewardManager:
             resp = self.session.post(
                 'https://api.twitch.tv/helix/channel_points/custom_rewards',
                 params={
-                    'boardcaster_id': self.broadcaster_id
+                    'broadcaster_id': self.broadcaster_id
                 },
                 json={
                     'title': reward_config.title,
