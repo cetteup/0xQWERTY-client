@@ -171,6 +171,8 @@ if __name__ == '__main__':
 
     cc = load_client_config()
 
+    logger.setLevel(cc.log_level)
+
     uvicorn.run(
         app,
         host=config.LISTEN_ADDR,

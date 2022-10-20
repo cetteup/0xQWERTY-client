@@ -1,3 +1,4 @@
+logLevel: info
 autoFulfill: true
 refund: false
 rewards:

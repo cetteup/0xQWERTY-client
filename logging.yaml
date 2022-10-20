@@ -26,8 +26,6 @@ loggers:
   socketio:
     client:
       propagate: true
-  0xQWERTY:
-    level: INFO
 
 root:
   level: WARNING

@@ -64,6 +64,7 @@ class RewardConfig:
 
 @dataclass
 class ClientConfig:
+    log_level: str
     auto_fulfill: bool
     refund: bool
     rewards: List[RewardConfig]
@@ -71,6 +72,7 @@ class ClientConfig:
     @staticmethod
     def from_dict(as_dict: dict) -> 'ClientConfig':
         return ClientConfig(
+            log_level=as_dict.get('logLevel', 'info').upper(),
             auto_fulfill=as_dict.get('autoFulfill', False),
             refund=as_dict.get('refund', False),
             rewards=[
@@ -80,6 +82,7 @@ class ClientConfig:
 
     def to_dict(self) -> dict:
         return {
+            'logLevel': self.log_level.lower(),
             'autoFulfill': self.auto_fulfill,
             'refund': self.refund,
             'rewards': [

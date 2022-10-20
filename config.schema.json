@@ -2,6 +2,10 @@
   "$schema": "https://json-schema.org/schema",
   "type": "object",
   "properties": {
+    "logLevel": {
+      "type": "string",
+      "enum": ["debug", "info", "warning", "error", "critical"]
+    },
     "autoFulfill": {
       "type": "boolean",
       "description": "Automatically mark redemptions as fulfilled if game window is active (optional)"
