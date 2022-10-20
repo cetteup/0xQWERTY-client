@@ -41,6 +41,7 @@ class RewardManager:
                 parsed = resp.json()
                 return parsed.get('data', list())
             else:
+                logger.debug(resp.text)
                 raise RewardManagerError(f'Failed to fetch existing rewards from Twitch '
                                          f'(HTTP/{resp.status_code}/{resp.reason})')
         except requests.RequestException as e:
@@ -91,6 +92,7 @@ class RewardManager:
                 parsed = resp.json()
                 return parsed.get('id')
             else:
+                logger.debug(resp.text)
                 raise RewardManagerError(f'Failed to create custom reward (HTTP/{resp.status_code}/{resp.reason})')
         except requests.RequestException as e:
             logger.debug(e)
@@ -112,6 +114,7 @@ class RewardManager:
             if resp.ok:
                 logger.info(f'0xQWERTY API is (now) subscribed to redemptions of {len(reward_ids)} managed rewards')
             else:
+                logger.debug(resp.text)
                 raise RewardManagerError(f'Failed to setup subscriptions for reward redemptions via 0xQWERTY API'
                                          f'(HTTP/{resp.status_code}/{resp.reason})')
         except requests.RequestException as e:
