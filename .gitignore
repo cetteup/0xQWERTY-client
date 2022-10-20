@@ -125,5 +125,6 @@ dmypy.json
 .idea/
 
 rewards.yaml
+config.yaml
 
 versionfile
