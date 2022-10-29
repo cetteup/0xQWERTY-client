@@ -105,13 +105,19 @@ async def auth(dto: TokenFromUrlDTO, response: Response):
     modified = False
     try:
         modified = rm.setup_rewards(cc.rewards)
-        rm.subscribe_to_redemptions()
     except RewardManagerError as e:
         logger.critical(str(e))
         sleep_sigterm()
 
     if modified:
         dump_client_config(cc)
+
+    # Run subscription setup separately so errors here don't stop us from updating the client config
+    try:
+        rm.subscribe_to_redemptions()
+    except RewardManagerError as e:
+        logger.critical(str(e))
+        sleep_sigterm()
 
     logger.info('Setup complete, listening for redemptions')
 
