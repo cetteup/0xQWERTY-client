@@ -69,7 +69,6 @@ class RewardManager:
         modified = False
         existing_rewards = self.get_rewards()
         for reward_config in configured_rewards:
-            # Don't default to None here when getting from dict, since None == None would treat the reward as found
             existing_reward = next((r for r in existing_rewards if r['id'] == reward_config.id), None)
             if existing_reward is None:
                 # Any rewards without an id or with a non-existing id need to be created
