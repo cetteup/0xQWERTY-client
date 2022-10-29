@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Any
 
 import requests
 from requests_oauthlib import OAuth2Session
@@ -37,35 +37,52 @@ class RewardManager:
                                         'broadcaster_id': self.broadcaster_id,
                                         'only_manageable_rewards': 1
                                     })
-            if resp.ok:
-                parsed = resp.json()
-                return parsed.get('data', list())
-            else:
+            if resp.ok and self.is_valid_reward_list_response(parsed := resp.json()):
+                return parsed['data']
+            elif not resp.ok:
                 logger.debug(resp.text)
                 raise RewardManagerError(f'Failed to fetch existing rewards from Twitch '
                                          f'(HTTP/{resp.status_code}/{resp.reason})')
+            else:
+                logger.debug(resp.text)
+                raise RewardManagerError('Twitch returned invalid response when fetching custom rewards')
         except requests.RequestException as e:
             logger.debug(e)
             raise RewardManagerError('Failed to fetch existing rewards from Twitch')
+
+    @staticmethod
+    def is_valid_reward_list_response(parsed_response: Any) -> bool:
+        if isinstance(parsed_response, dict) and isinstance(parsed_response.get('data'), list) and \
+                all(RewardManager.is_valid_reward_dto(elem) for elem in parsed_response['data']):
+            return True
+
+        return False
+
+    @staticmethod
+    def is_valid_reward_dto(reward_dto: Any) -> bool:
+        if isinstance(reward_dto, dict) and all(key in reward_dto for key in ['id', 'title', 'cost']):
+            return True
+
+        return False
 
     def setup_rewards(self, configured_rewards: List[RewardConfig]) -> bool:
         modified = False
         existing_rewards = self.get_rewards()
         for reward_config in configured_rewards:
             # Don't default to None here when getting from dict, since None == None would treat the reward as found
-            existing_reward = next((r for r in existing_rewards if r.get('id', '') == reward_config.id), None)
+            existing_reward = next((r for r in existing_rewards if r['id'] == reward_config.id), None)
             if existing_reward is None:
                 # Any rewards without an id or with a non-existing id need to be created
                 reward_config.id = self.create_reward(reward_config)
                 modified = True
             else:
-                # Use data from Twitch to update any existing rewards (using current data as fallback)
-                title = existing_reward.get('title', reward_config.title)
+                # Use data from Twitch to update any existing rewards
+                title = existing_reward['title']
                 if title != reward_config.title:
                     reward_config.title = title
                     modified = True
 
-                cost = existing_reward.get('cost', reward_config.cost)
+                cost = existing_reward['cost']
                 if cost != reward_config.cost:
                     reward_config.cost = cost
                     modified = True
@@ -88,18 +105,27 @@ class RewardManager:
                 }
             )
 
-            if resp.ok:
-                parsed = resp.json()
-                return parsed.get('id')
-            else:
+            if resp.ok and self.is_valid_create_reward_response(parsed := resp.json()):
+                return parsed['data'][0]['id']
+            elif not resp.ok:
                 logger.debug(resp.text)
                 raise RewardManagerError(f'Failed to create custom reward (HTTP/{resp.status_code}/{resp.reason})')
+            else:
+                logger.debug(resp.text)
+                raise RewardManagerError('Twitch returned invalid response when creating custom rewards')
         except requests.RequestException as e:
             logger.debug(e)
             raise RewardManagerError('Failed to create custom reward')
 
+    @staticmethod
+    def is_valid_create_reward_response(parsed_response: Any) -> bool:
+        if RewardManager.is_valid_reward_list_response(parsed_response) and len(parsed_response) == 1:
+            return True
+
+        return False
+
     def subscribe_to_redemptions(self) -> None:
-        reward_ids = [r.get('id') for r in self.get_rewards()]
+        reward_ids = [r['id'] for r in self.get_rewards()]
 
         if len(reward_ids) == 0:
             logger.warning('No manageable rewards found, aborting eventsub setup')
