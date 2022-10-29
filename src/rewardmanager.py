@@ -69,21 +69,28 @@ class RewardManager:
         modified = False
         existing_rewards = self.get_rewards()
         for reward_config in configured_rewards:
-            existing_reward = next((r for r in existing_rewards if r['id'] == reward_config.id), None)
+            # Find existing reward by id or title
+            # (reward titles must be unique, see https://dev.twitch.tv/docs/api/reference#create-custom-rewards)
+            existing_reward = next(
+                (r for r in existing_rewards if r['id'] == reward_config.id or r['title'] == reward_config.title)
+                , None
+            )
             if existing_reward is None:
                 # Any rewards without an id or with a non-existing id need to be created
                 reward_config.id = self.create_reward(reward_config)
                 modified = True
             else:
                 # Use data from Twitch to update any existing rewards
-                title = existing_reward['title']
-                if title != reward_config.title:
-                    reward_config.title = title
+                if existing_reward['id'] != reward_config.id:
+                    reward_config.id = existing_reward['id']
                     modified = True
 
-                cost = existing_reward['cost']
-                if cost != reward_config.cost:
-                    reward_config.cost = cost
+                if existing_reward['title'] != reward_config.title:
+                    reward_config.title = existing_reward['title']
+                    modified = True
+
+                if existing_reward['cost'] != reward_config.cost:
+                    reward_config.cost = existing_reward['cost']
                     modified = True
 
         logger.info(f'All {len(configured_rewards)} configured rewards are (now) setup on Twitch')
