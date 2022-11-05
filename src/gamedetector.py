@@ -6,6 +6,7 @@ import pyautogui
 
 class GameDetector:
     __KNOWN_GAMES = {
+        '7 Days To Die': '^7 days to die$',
         'Age of Empires II Definitive Edition': '^age of empires ii: definitive edition$',
         'Apex Legends': '^apex legends$',
         'Battlefield 1': '^battlefield™ 1$',
