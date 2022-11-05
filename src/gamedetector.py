@@ -35,6 +35,7 @@ class GameDetector:
         'Star Wars Battlefront 2': '^star wars battlefront ii$',
         'Stronghold Crusader': '^crusader$',
         'Team Fortress 2': '^team fortress 2$',
+        'The Sims 3': '^the sims 3$',
         'Trackmania': '^trackmania$',
         'Valorant': '^valorant$',
         'Warhammer Vermintide 2': '^warhammer: vermintide 2$'
