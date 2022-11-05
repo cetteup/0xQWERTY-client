@@ -35,7 +35,8 @@ class GameDetector:
         'Stronghold Crusader': '^crusader$',
         'Team Fortress 2': '^team fortress 2$',
         'Trackmania': '^trackmania$',
-        'Valorant': '^valorant$'
+        'Valorant': '^valorant$',
+        'Warhammer Vermintide 2': '^warhammer: vermintide 2$'
     }
 
     __game_regexes: dict = {}
