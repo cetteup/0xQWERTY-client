@@ -30,6 +30,7 @@ class GameDetector:
         'Destiny 2': '^destiny 2$',
         'Dota 2': '^dota 2$',
         'Fortnite': '^fortnite$',
+        'Half-Life': '^half-life$',
         'Hyperscape': '^hyperscape$',
         'Left 4 Dead': '^left 4 dead$',
         'Left 4 Dead 2': '^left 4 dead 2 - direct3d 9$',
