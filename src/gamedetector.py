@@ -41,6 +41,7 @@ class GameDetector:
         'Rocket League': r'^Rocket League \(\d\d-.*\)$',
         'Star Wars Battlefront 2': '^star wars battlefront ii$',
         'Stronghold Crusader': '^crusader$',
+        'Team Fortress': '^team fortress$',
         'Team Fortress 2': '^team fortress 2$',
         'The Sims 3': '^the sims 3$',
         'The Sims 4': '^the sims™ 4$',
