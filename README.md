@@ -19,36 +19,40 @@ Automatically press keys in-game when Twitch viewers redeem channel point reward
 
 Adding support for additional games is quite simple. If your favorite game is missing, reach out [on Discord](https://discord.gg/dN6N4PRZHc).
 
-- Age of Empires II Definitive Edition
-- Apex Legends
-- Battlefield 1
-- Battlefield 1942
-- Battlefield 2
-- Battlefield 2042
-- Battlefield 2142
-- Battlefield 3
-- Battlefield 4
-- Battlefield Bad Company 2
-- Battlefield V
-- Battlefield Vietnam
-- Destiny 2
-- Dota 2
-- Call of Duty 4
-- Call of Duty Modern Warfare
-- Counter-Strike Global Offensive
-- Fortnite
-- Hyperscape
-- Metro Redux
-- ParaWorld
-- Portal
-- Portal 2
-- Rainbox Six Siege
-- Rocket League
-- Star Wars Battlefront 2
-- Stronghold Crusader
-- Team Fortress 2
-- Trackmania
-- Valorant
+| Game                                 | Minimum client version¹ |
+|--------------------------------------|-------------------------|
+| Age of Empires II Definitive Edition | v1.0.0                  |
+| Apex Legends                         | v1.0.0                  |
+| Battlefield 1                        | v1.0.0                  |
+| Battlefield 1942                     | v1.0.0                  |
+| Battlefield 2                        | v1.0.0                  |
+| Battlefield 2042                     | v1.0.0                  |
+| Battlefield 2142                     | v1.0.0                  |
+| Battlefield 3                        | v1.0.0                  |
+| Battlefield 4                        | v1.0.0                  |
+| Battlefield Bad Company 2            | v1.0.0                  |
+| Battlefield V                        | v1.0.0                  |
+| Battlefield Vietnam                  | v1.0.0                  |
+| Call of Duty 4                       | v1.0.0                  |
+| Call of Duty Modern Warfare          | v1.0.0                  |
+| Counter-Strike Global Offensive      | v1.0.0                  |
+| Destiny 2                            | v1.0.0                  |
+| Dota 2                               | v1.0.0                  |
+| Fortnite                             | v1.0.0                  |
+| Hyperscape                           | v1.0.0                  |
+| Metro Redux                          | v1.0.0                  |
+| ParaWorld                            | v1.0.0                  |
+| Portal                               | v1.0.0                  |
+| Portal 2                             | v1.0.0                  |
+| Rainbox Six Siege                    | v1.0.0                  |
+| Rocket League                        | v1.0.0                  |
+| Star Wars Battlefront 2              | v1.0.0                  |
+| Stronghold Crusader                  | v1.0.0                  |
+| Team Fortress 2                      | v1.0.0                  |
+| Trackmania                           | v1.0.0                  |
+| Valorant                             | v1.0.0                  |
+
+¹ refers to the minimum launcher version supporting all features relevant to the game
 
 ## Example config
 
