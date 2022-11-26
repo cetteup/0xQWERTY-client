@@ -29,6 +29,7 @@ class GameDetector:
         'Dota 2': '^dota 2$',
         'Fortnite': '^fortnite$',
         'Hyperscape': '^hyperscape$',
+        'Left 4 Dead': '^left 4 dead$',
         'Metro Redux': '^metro redux$',
         'ParaWorld': r'^paraworld   .*pwclient wip \(base [0-9]+\)$',
         'Portal': '^portal$',
