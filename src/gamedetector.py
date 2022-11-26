@@ -40,6 +40,7 @@ class GameDetector:
         'Left 4 Dead': '^left 4 dead$',
         'Left 4 Dead 2': '^left 4 dead 2 - direct3d 9$',
         'Metro Redux': '^metro redux$',
+        'Overwatch': '^overwatch$',
         'ParaWorld': r'^paraworld   .*pwclient wip \(base [0-9]+\)$',
         'Portal': '^portal$',
         'Portal 2': '^portal 2$',
