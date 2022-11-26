@@ -22,6 +22,7 @@ class GameDetector:
         'Call of Duty 4': '^call of duty 4$',
         'Call of Duty Modern Warfare': '^call of duty®: modern warfare®$',
         'Counter - Strike': '^counter-strike$',
+        'Counter-Strike Condition Zero': '^condition zero$',
         'Counter-Strike Global Offensive': '^counter-strike: global offensive$',
         'Counter-Strike Source': '^counter-strike source$',
         'Day of Defeat': '^day of defeat$',
