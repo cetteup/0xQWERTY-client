@@ -31,6 +31,7 @@ class GameDetector:
         'Dota 2': '^dota 2$',
         'Fortnite': '^fortnite$',
         'Half-Life': '^half-life$',
+        'Half-Life Source': '^half-life - direct3d 9$',
         'Hyperscape': '^hyperscape$',
         'League of Legends': r'^league of legends \(tm\) client$',
         'Left 4 Dead': '^left 4 dead$',
