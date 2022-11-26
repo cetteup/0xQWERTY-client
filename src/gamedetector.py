@@ -23,6 +23,7 @@ class GameDetector:
         'Call of Duty Modern Warfare': '^call of duty®: modern warfare®$',
         'Counter - Strike': '^counter-strike$',
         'Counter-Strike Global Offensive': '^counter-strike: global offensive$',
+        'Counter-Strike Source': '^counter-strike source$',
         'Day of Defeat': '^day of defeat$',
         'Day of Defeat Source': '^day of defeat source$',
         'Destiny 2': '^destiny 2$',
