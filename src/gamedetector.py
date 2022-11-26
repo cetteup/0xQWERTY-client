@@ -53,7 +53,8 @@ class GameDetector:
         'The Sims 4': '^the sims™ 4$',
         'Trackmania': '^trackmania$',
         'Valorant': '^valorant$',
-        'Warhammer Vermintide 2': '^warhammer: vermintide 2$'
+        'Warhammer Vermintide 2': '^warhammer: vermintide 2$',
+        'War Thunder': '^war thunder(?: - in battle)?$'
     }
 
     __game_regexes: dict = {}
