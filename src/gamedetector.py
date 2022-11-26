@@ -19,6 +19,7 @@ class GameDetector:
         'Battlefield Bad Company 2': '^battlefield: bad company 2$',
         'Battlefield V': '^battlefield™ V$',
         'Battlefield Vietnam': '^battlefield vietnam$',
+        'Day of Defeat': '^day of defeat$',
         'Destiny 2': '^destiny 2$',
         'Dota 2': '^dota 2$',
         'Call of Duty 4': '^call of duty 4$',
