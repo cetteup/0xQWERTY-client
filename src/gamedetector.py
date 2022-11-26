@@ -25,6 +25,7 @@ class GameDetector:
         'Dota 2': '^dota 2$',
         'Call of Duty 4': '^call of duty 4$',
         'Call of Duty Modern Warfare': '^call of duty®: modern warfare®$',
+        'Counter - Strike': '^counter-strike$',
         'Counter-Strike Global Offensive': '^counter-strike: global offensive$',
         'Fortnite': '^fortnite$',
         'Hyperscape': '^hyperscape$',
