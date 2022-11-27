@@ -19,38 +19,67 @@ Automatically press keys in-game when Twitch viewers redeem channel point reward
 
 Adding support for additional games is quite simple. If your favorite game is missing, reach out [on Discord](https://discord.gg/dN6N4PRZHc).
 
-| Game                                 | Minimum client version¹ |
-|--------------------------------------|-------------------------|
-| Age of Empires II Definitive Edition | v1.0.0                  |
-| Apex Legends                         | v1.0.0                  |
-| Battlefield 1                        | v1.0.0                  |
-| Battlefield 1942                     | v1.0.0                  |
-| Battlefield 2                        | v1.0.0                  |
-| Battlefield 2042                     | v1.0.0                  |
-| Battlefield 2142                     | v1.0.0                  |
-| Battlefield 3                        | v1.0.0                  |
-| Battlefield 4                        | v1.0.0                  |
-| Battlefield Bad Company 2            | v1.0.0                  |
-| Battlefield V                        | v1.0.0                  |
-| Battlefield Vietnam                  | v1.0.0                  |
-| Call of Duty 4                       | v1.0.0                  |
-| Call of Duty Modern Warfare          | v1.0.0                  |
-| Counter-Strike Global Offensive      | v1.0.0                  |
-| Destiny 2                            | v1.0.0                  |
-| Dota 2                               | v1.0.0                  |
-| Fortnite                             | v1.0.0                  |
-| Hyperscape                           | v1.0.0                  |
-| Metro Redux                          | v1.0.0                  |
-| ParaWorld                            | v1.0.0                  |
-| Portal                               | v1.0.0                  |
-| Portal 2                             | v1.0.0                  |
-| Rainbox Six Siege                    | v1.0.0                  |
-| Rocket League                        | v1.0.0                  |
-| Star Wars Battlefront 2              | v1.0.0                  |
-| Stronghold Crusader                  | v1.0.0                  |
-| Team Fortress 2                      | v1.0.0                  |
-| Trackmania                           | v1.0.0                  |
-| Valorant                             | v1.0.0                  |
+| Game                                         | Minimum client version¹ |
+|----------------------------------------------|-------------------------|
+| 7 Days To Die                                | v1.0.5                  |
+| Age of Empires II Definitive Edition         | v1.0.0                  |
+| Apex Legends                                 | v1.0.0                  |
+| Battlefield 1                                | v1.0.0                  |
+| Battlefield 1942                             | v1.0.0                  |
+| Battlefield 2                                | v1.0.0                  |
+| Battlefield 2042                             | v1.0.0                  |
+| Battlefield 2142                             | v1.0.0                  |
+| Battlefield 3                                | v1.0.0                  |
+| Battlefield 4                                | v1.0.0                  |
+| Battlefield Bad Company 2                    | v1.0.0                  |
+| Battlefield V                                | v1.0.0                  |
+| Battlefield Vietnam                          | v1.0.0                  |
+| Call of Duty                                 | v1.0.5                  |
+| Call of Duty  2                              | v1.0.5                  |
+| Call of Duty 4                               | v1.0.0                  |
+| Call of Duty Modern Warfare                  | v1.0.0                  |
+| Call of Duty Modern Warfare II               | v1.0.5                  |
+| Call of Duty United Offensive                | v1.0.5                  |
+| Call of Duty World at War                    | v1.0.5                  |
+| Counter-Strike                               | v1.0.5                  |
+| Counter-Strike Condition Zero                | v1.0.5                  |
+| Counter-Strike Global Offensive              | v1.0.0                  |
+| Counter-Strike Source                        | v1.0.5                  |
+| Day of Defeat                                | v1.0.5                  |
+| Day of Defeat Source                         | v1.0.5                  |
+| DCS World                                    | v1.0.5                  |
+| Destiny 2                                    | v1.0.0                  |
+| Dota 2                                       | v1.0.0                  |
+| Fortnite                                     | v1.0.0                  |
+| Half-Life                                    | v1.0.5                  |
+| Half-Life 2 (incl. Episode One, Episode Two) | v1.0.5                  |
+| Half-Life 2 Deathmatch                       | v1.0.5                  |
+| Half-Life 2 Lost Coast                       | v1.0.5                  |
+| Half-Life Source                             | v1.0.5                  |
+| Heroes of the Storm                          | v1.0.5                  |
+| Hyperscape                                   | v1.0.0                  |
+| League of Legends                            | v1.0.5                  |
+| Left 4 Dead                                  | v1.0.5                  |
+| Left 4 Dead 2                                | v1.0.5                  |
+| Metro Redux                                  | v1.0.0                  |
+| Overwatch (incl. Overwatch 2)                | v1.0.5                  |
+| ParaWorld                                    | v1.0.0                  |
+| Portal                                       | v1.0.0                  |
+| Portal 2                                     | v1.0.0                  |
+| Rainbox Six Siege                            | v1.0.0                  |
+| Rocket League                                | v1.0.0                  |
+| StarCraft II                                 | v1.0.5                  |
+| Star Wars Battlefront 2                      | v1.0.0                  |
+| Stronghold Crusader                          | v1.0.0                  |
+| Team Fortress                                | v1.0.5                  |
+| Team Fortress 2                              | v1.0.0                  |
+| The Sims 3                                   | v1.0.5                  |
+| The Sims 4                                   | v1.0.5                  |
+| Trackmania                                   | v1.0.0                  |
+| Valorant                                     | v1.0.0                  |
+| Warhammer Vermintide 2                       | v1.0.5                  |
+| War Thunder                                  | v1.0.5                  |
+| World of Tanks                               | v1.0.5                  |
 
 ¹ refers to the minimum launcher version supporting all features relevant to the game
 
