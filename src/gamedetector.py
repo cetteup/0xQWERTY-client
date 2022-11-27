@@ -20,6 +20,7 @@ class GameDetector:
         'Battlefield V': '^battlefield™ V$',
         'Battlefield Vietnam': '^battlefield vietnam$',
         'Call of Duty': '^call of duty (?:single|multi)player$',
+        'Call of Duty 2': '^call of duty 2 (?:single|multi)player$',
         'Call of Duty 4': '^call of duty 4$',
         'Call of Duty Modern Warfare': '^call of duty®: modern warfare®$',
         'Call of Duty Modern Warfare II': '^call of duty® hq$',
