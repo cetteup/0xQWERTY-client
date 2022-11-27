@@ -26,12 +26,15 @@ jobs:
       - name: Generate versionfile
         run: |
           create-version-file.exe versionfile.yaml --outfile versionfile
-      - name: Build executable
+      - name: Build client executable
         run: |
-          pyinstaller main.spec
+          pyinstaller main.spec --clean
+      - name: Build tool executables
+        run: |
+           pyinstaller scripts\get-active-window-title.py --onefile --distpath dist\tools --clean
       - name: Create release archive
         run: |
-          Compress-Archive -Path "dist\0xQWERTY-client.exe","config.example.yaml" -DestinationPath 0xQWERTY-client-${{ github.ref_name }}.zip
+          Compress-Archive -Path "dist\0xQWERTY-client.exe","dist\tools\","config.example.yaml" -DestinationPath 0xQWERTY-client-${{ github.ref_name }}.zip
       - name: Create hash files
         run: |
           $(Get-FileHash -Path 0xQWERTY-client-${{ github.ref_name }}.zip -Algorithm MD5).Hash.toLower() + "`n" | Out-File -NoNewline 0xQWERTY-client-${{ github.ref_name }}.zip.md5
