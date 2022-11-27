@@ -28,6 +28,7 @@ class GameDetector:
         'Counter-Strike Source': '^counter-strike source$',
         'Day of Defeat': '^day of defeat$',
         'Day of Defeat Source': '^day of defeat source$',
+        'DCS World': '^digital combat simulator$',
         'Destiny 2': '^destiny 2$',
         'Dota 2': '^dota 2$',
         'Fortnite': '^fortnite$',
