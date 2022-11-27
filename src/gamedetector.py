@@ -23,6 +23,7 @@ class GameDetector:
         'Call of Duty 4': '^call of duty 4$',
         'Call of Duty Modern Warfare': '^call of duty®: modern warfare®$',
         'Call of Duty Modern Warfare II': '^call of duty® hq$',
+        'Call of Duty United Offensive': '^cod:united offensive (?:single|multi)player$',
         'Counter-Strike': '^counter-strike$',
         'Counter-Strike Condition Zero': '^condition zero$',
         'Counter-Strike Global Offensive': '^counter-strike: global offensive$',
