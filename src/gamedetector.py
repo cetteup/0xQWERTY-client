@@ -37,6 +37,7 @@ class GameDetector:
         'Half-Life 2 Deathmatch': '^half-life 2 dm$',
         'Half-Life 2 Lost Coast': '^half-life 2: lost coast - direct3d 9$',
         'Half-Life Source': '^half-life - direct3d 9$',
+        'Heroes of the Storm': '^heroes of the storm$',
         'Hyperscape': '^hyperscape$',
         'League of Legends': r'^league of legends \(tm\) client$',
         'Left 4 Dead': '^left 4 dead$',
