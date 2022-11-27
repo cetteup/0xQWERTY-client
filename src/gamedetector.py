@@ -48,6 +48,7 @@ class GameDetector:
         'Portal 2': '^portal 2$',
         'Rainbox Six Siege': '^rainbow six$',
         'Rocket League': r'^Rocket League \(\d\d-.*\)$',
+        'StarCraft II': '^starcraft ii$',
         'Star Wars Battlefront 2': '^star wars battlefront ii$',
         'Stronghold Crusader': '^crusader$',
         'Team Fortress': '^team fortress$',
