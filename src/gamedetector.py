@@ -51,6 +51,7 @@ class GameDetector:
         'ParaWorld': r'^paraworld   .*pwclient wip \(base [0-9]+\)$',
         'Portal': '^portal$',
         'Portal 2': '^portal 2$',
+        'Quake II': '^quake (?:2|ii rtx)$',
         'Rainbox Six Siege': '^rainbow six$',
         'Rocket League': r'^rocket league \(\d\d-.*\)$',
         'StarCraft II': '^starcraft ii$',
