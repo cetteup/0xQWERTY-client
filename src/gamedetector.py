@@ -28,7 +28,7 @@ class GameDetector:
         'Call of Duty World at War': '^call of duty®$',
         'Counter-Strike': '^counter-strike$',
         'Counter-Strike Condition Zero': '^condition zero$',
-        'Counter-Strike Global Offensive': '^counter-strike: global offensive$',
+        'Counter-Strike Global Offensive': '^counter-strike: global offensive(?: - direct3d 9)?$',
         'Counter-Strike Source': '^counter-strike source$',
         'Day of Defeat': '^day of defeat$',
         'Day of Defeat Source': '^day of defeat source$',
