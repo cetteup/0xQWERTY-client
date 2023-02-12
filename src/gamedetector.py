@@ -63,6 +63,7 @@ class GameDetector:
         'Trackmania': '^trackmania$',
         'Unreal Tournament': '^unreal tournament$',
         'Unreal Tournament 2004': '^unreal tournament 2004$',
+        'Unreal Tournament 3': '^unreal tournament 3$',
         'Valorant': '^valorant$',
         'Warhammer Vermintide 2': '^warhammer: vermintide 2$',
         'War Thunder': '^war thunder(?: - in battle)?$',
