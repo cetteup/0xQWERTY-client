@@ -61,6 +61,7 @@ class GameDetector:
         'The Sims 3': '^the sims 3$',
         'The Sims 4': '^the sims™ 4$',
         'Trackmania': '^trackmania$',
+        'Unreal': '^unreal$',
         'Unreal Tournament': '^unreal tournament$',
         'Unreal Tournament 2004': '^unreal tournament 2004$',
         'Unreal Tournament 3': '^unreal tournament 3$',
