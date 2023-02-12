@@ -63,6 +63,7 @@ class GameDetector:
         'Trackmania': '^trackmania$',
         'Unreal': '^unreal$',
         'Unreal Tournament': '^unreal tournament$',
+        'Unreal Tournament 2003': '^unreal tournament 2003$',
         'Unreal Tournament 2004': '^unreal tournament 2004$',
         'Unreal Tournament 3': '^unreal tournament 3$',
         'Valorant': '^valorant$',
