@@ -62,6 +62,7 @@ class GameDetector:
         'The Sims 4': '^the sims™ 4$',
         'Trackmania': '^trackmania$',
         'Unreal Tournament': '^unreal tournament$',
+        'Unreal Tournament 2004': '^unreal tournament 2004$',
         'Valorant': '^valorant$',
         'Warhammer Vermintide 2': '^warhammer: vermintide 2$',
         'War Thunder': '^war thunder(?: - in battle)?$',
