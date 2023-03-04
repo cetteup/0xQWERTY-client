@@ -10,7 +10,7 @@ class GameDetector:
         'Age of Empires II Definitive Edition': '^age of empires ii: definitive edition$',
         'Apex Legends': '^apex legends$',
         'Battlefield 1': '^battlefield™ 1$',
-        'Battlefield 1942': r'^bf1942 \(ver: \w+, \d+ \w+\.? \d+(?: [:0-9]+)?\)))$',
+        'Battlefield 1942': r'^bf1942 \(ver: \w+, \d+ \w+\.? \d+(?: [:0-9]+)?\)$',
         'Battlefield 2': r'^bf2 \(v1.[\.\-0-9]+, pid: [0-9]+\)$',
         'Battlefield 2042': '^battlefield™ 2042$',
         'Battlefield 2142': r'^bf2142 \(v1.[\.\-0-9]+, pid: [0-9]+\)$',
