@@ -137,7 +137,7 @@ async def on_message(data):
     active_game = gameDetector.get_active_game()
     if reward is not None and active_game is not None:
         action = reward.actions.get(active_game)
-        if action.type is RewardActionType.KEYPRESS:
+        if action is not None and action.type is RewardActionType.KEYPRESS:
             logger.info(f'Pressing key for reward redemption ({action.value})')
             fulfilled = pydirectinput.press([str(action.value)])
             if not fulfilled:
