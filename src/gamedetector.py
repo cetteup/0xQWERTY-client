@@ -56,6 +56,7 @@ class GameDetector:
         'Rocket League': r'^rocket league \(\d\d-.*\)$',
         'StarCraft II': '^starcraft ii$',
         'Star Wars Battlefront 2': '^star wars battlefront ii$',
+        'Star Wars Squadrons': '^star wars™: squadrons$',
         'Stronghold Crusader': '^crusader$',
         'Team Fortress': '^team fortress$',
         'Team Fortress 2': '^team fortress 2$',
