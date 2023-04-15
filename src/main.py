@@ -126,6 +126,10 @@ async def auth(dto: TokenFromUrlDTO, response: Response):
 async def connect():
     logger.info('Connection to socket.io server established')
 
+    # Rejoin redemption announcement room if broadcaster is already set
+    if broadcaster.get('login') is not None:
+        await sio.emit('join', f'streamer:{broadcaster["login"]}')
+
 
 @sio.on('redemption')
 async def on_message(data):
