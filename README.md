@@ -66,16 +66,24 @@ Adding support for additional games is quite simple. If your favorite game is mi
 | ParaWorld                                    | v1.0.0                  |
 | Portal                                       | v1.0.0                  |
 | Portal 2                                     | v1.0.0                  |
+| Quake II/Quake II RTX                        | v1.0.7                  |
 | Rainbox Six Siege                            | v1.0.0                  |
 | Rocket League                                | v1.0.0                  |
 | StarCraft II                                 | v1.0.5                  |
 | Star Wars Battlefront 2                      | v1.0.0                  |
+| Star Wars: Squadrons                         | v1.0.7                  |
 | Stronghold Crusader                          | v1.0.0                  |
 | Team Fortress                                | v1.0.5                  |
 | Team Fortress 2                              | v1.0.0                  |
 | The Sims 3                                   | v1.0.5                  |
 | The Sims 4                                   | v1.0.5                  |
 | Trackmania                                   | v1.0.0                  |
+| Unreal                                       | v1.0.7                  |
+| Unreal II: The Awakening                     | v1.0.7                  |
+| Unreal Tournament                            | v1.0.7                  |
+| Unreal Tournament 2003                       | v1.0.7                  |
+| Unreal Tournament 2004                       | v1.0.7                  |
+| Unreal Tournament 3                          | v1.0.7                  |
 | Valorant                                     | v1.0.0                  |
 | Warhammer Vermintide 2                       | v1.0.5                  |
 | War Thunder                                  | v1.0.5                  |
