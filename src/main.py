@@ -2,6 +2,7 @@ import argparse
 import logging.config
 import os
 import webbrowser
+from contextlib import asynccontextmanager
 
 import pydirectinput
 import socketio
@@ -26,7 +27,26 @@ parser = argparse.ArgumentParser(
 parser.add_argument('--version', action='version', version='0xQWERTY-client v1.0.7')
 args = parser.parse_args()
 
-app = FastAPI(title='0xQWERTY-client')
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global sio, cc, gameDetector
+
+    configured_games = list(set([key for r in cc.rewards for key in r.actions.keys()]))
+
+    gameDetector.set_configured_games(configured_games)
+
+    await sio.connect(config.QWERTY_API_BASE_URL)
+    authorization_url, state = twitch.authorization_url(config.TWITCH_AUTH_BASE_URL)
+    logger.info(f'Opening browser for Twitch authentication ({authorization_url})')
+    webbrowser.open(authorization_url)
+
+    yield
+
+    await sio.disconnect()
+
+
+app = FastAPI(title='0xQWERTY-client', lifespan=lifespan)
 templates = Jinja2Templates(directory=os.path.join(config.ROOT_DIR, 'templates'))
 sio = socketio.AsyncClient(reconnection_attempts=16, logger=True, engineio_logger=True)
 
@@ -40,25 +60,6 @@ twitch = OAuth2Session(client=MobileApplicationClient(client_id=config.CLIENT_ID
                        redirect_uri=config.REDIRECT_URI, scope=config.SCOPES)
 # Client ID header is not sent by default, so just manually add it to the headers
 twitch.headers['Client-Id'] = config.CLIENT_ID
-
-
-@app.on_event('startup')
-async def prompt_auth():
-    global sio, cc, gameDetector
-
-    configuredGames = list(set([key for r in cc.rewards for key in r.actions.keys()]))
-
-    gameDetector.set_configured_games(configuredGames)
-
-    await sio.connect(config.QWERTY_API_BASE_URL)
-    authorization_url, state = twitch.authorization_url(config.TWITCH_AUTH_BASE_URL)
-    logger.info(f'Opening browser for Twitch authentication ({authorization_url})')
-    webbrowser.open(authorization_url)
-
-
-@app.on_event('shutdown')
-async def shutdown():
-    await sio.disconnect()
 
 
 @app.get('/s/auth-callback', response_class=HTMLResponse)
