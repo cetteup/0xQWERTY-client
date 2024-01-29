@@ -1,5 +1,5 @@
 PyAutoGUI==0.9.52
-uvicorn==0.22.0
+uvicorn==0.27.0.post1
 PyYAML==6.0.1
 fastapi==0.109.0
 oauthlib==3.2.2
