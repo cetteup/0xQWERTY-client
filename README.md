@@ -66,6 +66,7 @@ Adding support for additional games is quite simple. If your favorite game is mi
 | ParaWorld                                    | v1.0.0                  |
 | Portal                                       | v1.0.0                  |
 | Portal 2                                     | v1.0.0                  |
+| PUBG: BATTLEGROUNDS                          | v1.1.0                  |
 | Quake II/Quake II RTX                        | v1.0.7                  |
 | Rainbox Six Siege                            | v1.0.0                  |
 | Rocket League                                | v1.0.0                  |
