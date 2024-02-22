@@ -50,6 +50,7 @@ Adding support for additional games is quite simple. If your favorite game is mi
 | DCS World                                    | v1.0.5                  |
 | Destiny 2                                    | v1.0.0                  |
 | Dota 2                                       | v1.0.0                  |
+| Escape from Tarkov                           | v1.2.0                  |
 | Fortnite                                     | v1.0.0                  |
 | Half-Life                                    | v1.0.5                  |
 | Half-Life 2 (incl. Episode One, Episode Two) | v1.0.5                  |
@@ -64,6 +65,7 @@ Adding support for additional games is quite simple. If your favorite game is mi
 | Metro Redux                                  | v1.0.0                  |
 | Overwatch (incl. Overwatch 2)                | v1.0.5                  |
 | ParaWorld                                    | v1.0.0                  |
+| Path of Exile                                | v1.2.0                  |
 | Portal                                       | v1.0.0                  |
 | Portal 2                                     | v1.0.0                  |
 | PUBG: BATTLEGROUNDS                          | v1.1.0                  |
@@ -89,6 +91,7 @@ Adding support for additional games is quite simple. If your favorite game is mi
 | Warhammer Vermintide 2                       | v1.0.5                  |
 | War Thunder                                  | v1.0.5                  |
 | World of Tanks                               | v1.0.5                  |
+| World of Warcraft                            | v1.2.0                  |
 
 ¹ refers to the minimum launcher version supporting all features relevant to the game
 
