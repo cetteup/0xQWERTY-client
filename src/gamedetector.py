@@ -73,7 +73,8 @@ class GameDetector:
         'Valorant': '^valorant$',
         'Warhammer Vermintide 2': '^warhammer: vermintide 2$',
         'War Thunder': '^war thunder(?: - in battle)?$',
-        'World of Tanks': '^wot client$'
+        'World of Tanks': '^wot client$',
+        'World of Warcraft': '^world of warcraft$'
     }
 
     __game_regexes: dict = {}
