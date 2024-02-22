@@ -49,6 +49,7 @@ class GameDetector:
         'Metro Redux': '^metro redux$',
         'Overwatch': '^overwatch$',
         'ParaWorld': r'^paraworld   .*pwclient wip \(base [0-9]+\)$',
+        'Path of Exile': '^path of exile$',
         'Portal': '^portal$',
         'Portal 2': '^portal 2$',
         'PUBG Battlegrounds': '^pubg: battlegrounds$',
