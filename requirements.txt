@@ -1,7 +1,7 @@
 PyAutoGUI==0.9.52
 uvicorn==0.27.0.post1
 PyYAML==6.0.1
-fastapi==0.109.0
+fastapi==0.109.1
 oauthlib==3.2.2
 python-socketio==5.11.0
 aiohttp==3.9.0
