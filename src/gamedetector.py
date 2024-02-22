@@ -35,6 +35,7 @@ class GameDetector:
         'DCS World': '^digital combat simulator$',
         'Destiny 2': '^destiny 2$',
         'Dota 2': '^dota 2$',
+        'Escape from Tarkov': '^escapefromtarkov$',
         'Fortnite': '^fortnite$',
         'Half-Life': '^half-life$',
         'Half-Life 2': '^half-life 2 - direct3d 9$',
