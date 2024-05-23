@@ -32,6 +32,7 @@ Adding support for additional games is quite simple. If your favorite game is mi
 | Battlefield 3                                | v1.0.0                  |
 | Battlefield 4                                | v1.0.0                  |
 | Battlefield Bad Company 2                    | v1.0.0                  |
+| Battlefield Hardline                         | v1.3.0                  |
 | Battlefield V                                | v1.0.0                  |
 | Battlefield Vietnam                          | v1.0.0                  |
 | Call of Duty                                 | v1.0.5                  |
@@ -42,6 +43,7 @@ Adding support for additional games is quite simple. If your favorite game is mi
 | Call of Duty United Offensive                | v1.0.5                  |
 | Call of Duty World at War                    | v1.0.5                  |
 | Counter-Strike                               | v1.0.5                  |
+| Counter-Strike 2                             | v1.3.0                  |
 | Counter-Strike Condition Zero                | v1.0.5                  |
 | Counter-Strike Global Offensive              | v1.0.0                  |
 | Counter-Strike Source                        | v1.0.5                  |
