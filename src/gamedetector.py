@@ -28,6 +28,7 @@ class GameDetector:
         'Call of Duty United Offensive': '^cod:united offensive (?:single|multi)player$',
         'Call of Duty World at War': '^call of duty®$',
         'Counter-Strike': '^counter-strike$',
+        'Counter-Strike 2': '^counter-strike 2$',
         'Counter-Strike Condition Zero': '^condition zero$',
         'Counter-Strike Global Offensive': '^counter-strike: global offensive(?: - direct3d 9)?$',
         'Counter-Strike Source': '^counter-strike source$',
