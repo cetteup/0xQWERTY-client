@@ -48,7 +48,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title='0xQWERTY-client', lifespan=lifespan)
 templates = Jinja2Templates(directory=os.path.join(config.ROOT_DIR, 'templates'))
-sio = socketio.AsyncClient(reconnection_attempts=16, logger=True, engineio_logger=True)
+sio = socketio.AsyncClient(reconnection_attempts=16, logger=True, engineio_logger=True, handle_sigint=False)
 
 # Disable pydirectinput failsafe points
 pydirectinput.FAILSAFE = False
