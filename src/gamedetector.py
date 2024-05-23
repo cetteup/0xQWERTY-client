@@ -17,6 +17,7 @@ class GameDetector:
         'Battlefield 3': '^battlefield 3™$',
         'Battlefield 4': '^battlefield 4$',
         'Battlefield Bad Company 2': '^battlefield: bad company 2$',
+        'Battlefield Hardline': '^battlefield hardline$',
         'Battlefield V': '^battlefield™ v$',
         'Battlefield Vietnam': '^battlefield vietnam$',
         'Call of Duty': '^call of duty (?:single|multi)player$',
