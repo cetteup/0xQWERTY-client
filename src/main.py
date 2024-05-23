@@ -24,7 +24,7 @@ from utility import load_client_config, load_logging_config, sleep_sigterm, dump
 parser = argparse.ArgumentParser(
     description='0xQWERTY - Automatically press keys in-game when Twitch viewers redeem channel point rewards'
 )
-parser.add_argument('--version', action='version', version='0xQWERTY-client v1.2.0')
+parser.add_argument('--version', action='version', version='0xQWERTY-client v1.3.0')
 args = parser.parse_args()
 
 
