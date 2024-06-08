@@ -33,8 +33,8 @@ def load_logging_config() -> dict:
     try:
         with open(logging_config_path, 'r') as f:
             return yaml.safe_load(f)
-    except (OSError, yaml.YAMLError):
-        logger.critical(f'Failed to load logging config from {logging_config_path}')
+    except (OSError, yaml.YAMLError) as e:
+        logger.critical(f'Failed to load logging config from {logging_config_path}: {e}')
         sleep_exit(1)
 
 
@@ -43,16 +43,16 @@ def load_client_config() -> ClientConfig:
     try:
         with open(schema_path, 'r') as s:
             schema = json.load(s)
-    except (OSError, json.JSONDecodeError):
-        logger.critical(f'Failed to load config JSON schema from {schema_path}')
+    except (OSError, json.JSONDecodeError) as e:
+        logger.critical(f'Failed to load config JSON schema from {schema_path}: {e}')
         sleep_exit(1)
 
     client_config_path = os.path.join(config.PWD, 'config.yaml')
     try:
         with open(client_config_path, 'r') as c:
             client_config = yaml.safe_load(c)
-    except (OSError, yaml.YAMLError):
-        logger.critical(f'Failed to load client config from {client_config_path}')
+    except (OSError, yaml.YAMLError) as e:
+        logger.critical(f'Failed to load client config from {client_config_path}: {e}')
         sleep_exit(1)
 
     # Ensure actual client config matches schema
@@ -70,7 +70,7 @@ def dump_client_config(client_config: ClientConfig) -> None:
     try:
         with open(client_config_path, 'w') as c:
             yaml.dump(client_config.to_dict(), c, sort_keys=False, Dumper=YamlDumper, default_flow_style=False)
-    except (OSError, yaml.YAMLError):
-        logger.error('Failed to write client config')
+    except (OSError, yaml.YAMLError) as e:
+        logger.error(f'Failed to write client config: {e}')
 
 

@@ -89,8 +89,7 @@ async def auth(dto: TokenFromUrlDTO, response: Response):
         elif resp.status_code == 401:
             token_valid = False
     except Exception as e:
-        logger.error('Failed to get current user from Twitch API')
-        logger.error(e)
+        logger.error(f'Failed to get current user from Twitch API: {e}')
         token_valid = False
 
     if not token_valid:
