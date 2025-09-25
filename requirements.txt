@@ -1,6 +1,6 @@
 PyAutoGUI==0.9.52
 uvicorn==0.29.0
-PyYAML==6.0.1
+PyYAML==6.0.3
 fastapi==0.111.0
 oauthlib==3.2.2
 python-socketio==5.11.2
