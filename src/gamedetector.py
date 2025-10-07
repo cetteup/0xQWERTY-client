@@ -16,6 +16,7 @@ class GameDetector:
         'Battlefield 2142': r'^bf2142 \(v1.[\.\-0-9]+, pid: [0-9]+\)$',
         'Battlefield 3': '^battlefield 3™$',
         'Battlefield 4': '^battlefield 4$',
+        'Battlefield 6': '^battlefield™ 6$',
         'Battlefield Bad Company 2': '^battlefield: bad company 2$',
         'Battlefield Hardline': '^battlefield hardline$',
         'Battlefield V': '^battlefield™ v$',
