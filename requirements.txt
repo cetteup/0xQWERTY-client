@@ -8,4 +8,4 @@ aiohttp==3.13.0
 requests-oauthlib==2.0.0
 jinja2==3.1.6
 PyDirectInput==1.0.4
-jsonschema==4.22.0
+jsonschema==4.25.1
