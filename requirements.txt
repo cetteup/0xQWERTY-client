@@ -1,4 +1,4 @@
-PyAutoGUI==0.9.52
+PyAutoGUI==0.9.54
 uvicorn==0.37.0
 PyYAML==6.0.3
 fastapi==0.118.0
