@@ -13,32 +13,40 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v5
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.13"
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install wheel
           pip install pyinstaller pyinstaller-versionfile
           $(if (Test-Path requirements.txt) { pip install -r requirements.txt })
+
       - name: Generate versionfile
         run: |
           create-version-file.exe versionfile.yaml --outfile versionfile
+
       - name: Build client executable
         run: |
           pyinstaller main.spec --clean
+
       - name: Build tool executables
         run: |
            pyinstaller scripts\get-active-window-title.py --onefile --distpath dist\tools --clean
+
       - name: Create release archive
         run: |
           Compress-Archive -Path "dist\0xQWERTY-client.exe","dist\tools\","config.example.yaml" -DestinationPath 0xQWERTY-client-${{ github.ref_name }}.zip
+
       - name: Create hash files
         run: |
           $(Get-FileHash -Path 0xQWERTY-client-${{ github.ref_name }}.zip -Algorithm MD5).Hash.toLower() + "`n" | Out-File -NoNewline 0xQWERTY-client-${{ github.ref_name }}.zip.md5
           $(Get-FileHash -Path 0xQWERTY-client-${{ github.ref_name }}.zip -Algorithm SHA256).Hash.toLower() + "`n" | Out-File -NoNewline 0xQWERTY-client-${{ github.ref_name }}.zip.sha256
+
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
@@ -47,4 +55,3 @@ jobs:
           generate_release_notes: true
           name: 0xQWERTY-client ${{ github.ref_name }}
           body: This is the ${{ github.ref_name }} release of the 0xQWERTY-client.
-
