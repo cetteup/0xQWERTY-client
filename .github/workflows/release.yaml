@@ -43,7 +43,7 @@ jobs:
           Compress-Archive -Path "dist\0xQWERTY-client.exe","dist\tools\","config.example.yaml" -DestinationPath 0xQWERTY-client-${{ github.ref_name }}.zip
 
       - name: Create release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: 0xQWERTY-client-${{ github.ref_name }}.zip
           draft: true
